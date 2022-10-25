@@ -1,0 +1,37 @@
+{
+    "name": "interaction-design-foundation/laravel-batch-mailer",
+    "type": "library",
+    "require": {
+        "php": "^8.1",
+        "mailgun/mailgun-php": "^3.5",
+        "ixdf/laravel-postmark-api": "dev-improve-api",
+        "ext-fileinfo": "*"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^7.10",
+        "phpunit/phpunit": "^9.5"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "InteractionDesignFoundation\\BatchMailer\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "InteractionDesignFoundation\\BatchMailer\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "mateusjunges",
+            "email": "mateus@junges.dev"
+        }
+    ],
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/InteractionDesignFoundation/laravel-postmark-api"
+        }
+    ]
+}
