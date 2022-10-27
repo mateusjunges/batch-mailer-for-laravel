@@ -98,8 +98,6 @@ final class BatchMailer implements BatchMailerContract
             return null;
         }
 
-        $sentMessage = new SentMessage($message);
-
         $this->dispatchSentEvent($sentMessage, $data);
 
         return $sentMessage;

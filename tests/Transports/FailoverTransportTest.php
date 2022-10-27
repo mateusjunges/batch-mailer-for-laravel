@@ -11,6 +11,24 @@ final class FailoverTransportTest extends TestCase
     /** @test */
     public function get_failover_transport_with_configured_transports(): void
     {
+       $this->setFailoverConfig();
+
+        $transport = App::make('batch-mailer')->getBatchTransport();
+
+        $this->assertInstanceOf(FailoverTransport::class, $transport);
+    }
+
+    /** @test */
+    public function it_uses_fallback_transport_if_the_first_fails(): void
+    {
+        $this->setFailoverConfig();
+
+        $this->markTestIncomplete();
+    }
+
+
+    private function setFailoverConfig(): void
+    {
         $this->app['config']->set('batch-mailer.default', 'failover');
 
         $this->app['config']->set('batch-mailer.mailers', [
@@ -19,7 +37,6 @@ final class FailoverTransportTest extends TestCase
                 'mailers' => [
                     'mailgun',
                     'postmark',
-                    'array'
                 ]
             ],
             'mailgun' => [
@@ -34,9 +51,5 @@ final class FailoverTransportTest extends TestCase
                 'transport' => 'array'
             ]
         ]);
-
-        $transport = App::make('batch-mailer')->getBatchTransport();
-
-        $this->assertInstanceOf(FailoverTransport::class, $transport);
     }
 }

@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Facade;
  * @method static \InteractionDesignFoundation\BatchMailer\SentMessage|null raw(string $text, \Closure $callback)
  * @method static \InteractionDesignFoundation\BatchMailer\SentMessage|null plain(string $text, \Closure $callback)
  * @method static \InteractionDesignFoundation\BatchMailer\SentMessage|null html(string $html, \Closure $callback)
+ * @method static \InteractionDesignFoundation\BatchMailer\BatchMailManager extend(string $driver, \Closure $callback)
  *
  * @see \InteractionDesignFoundation\BatchMailer\BatchMailManager
  * @see \InteractionDesignFoundation\BatchMailer\BatchMailer

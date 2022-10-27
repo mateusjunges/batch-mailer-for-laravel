@@ -17,7 +17,10 @@ final class BatchMailManager implements Factory
     /** @var array<string, BatchMailerContract>  */
     private array $mailers = [];
 
-    public function __construct(private readonly Application $app) {}
+    /** @var array<string, \Closure> $customCreators */
+    private array $customCreators = [];
+
+    public function __construct(private Application $app) {}
 
     public function mailer(string $name = null): BatchMailerContract
     {
@@ -50,6 +53,10 @@ final class BatchMailManager implements Factory
     protected function createBatchTransport(array $config): BatchTransport
     {
         $transport = $config['transport'] ?? $this->app['config']['batch-mailer.driver'];
+
+        if ($this->hasCustomCreatorFor($transport)) {
+            return call_user_func($this->customCreators[$transport], $config);
+        }
 
         if (trim($transport ?? '') === '' || ! method_exists($this, $method = 'create'.ucfirst($transport).'Transport')) {
             throw new \InvalidArgumentException("Unsupported batch mailer transport [$transport].");
@@ -108,10 +115,48 @@ final class BatchMailManager implements Factory
             : $this->app['config']["batch-mailer.mailers.$name"];
     }
 
+    /** Get the default batch mailer driver name. */
     public function getDefaultDriver(): string
     {
         return $this->app['config']['batch-mailer.driver']
             ?? $this->app['config']['batch-mailer.default'];
+    }
+
+    /** Set the default batch mailer driver name.*/
+    public function setDefaultDriver(string $name): void
+    {
+        if ($this->app['config']['batch-mailer.driver']) {
+            $this->app['config']['batch-mailer.driver'] = $name;
+        }
+
+        $this->app['config']['batch-mailer.default'] = $name;
+    }
+
+    /** Disconnect the given mailer and remove from local cache. */
+    public function purge($name): void
+    {
+        $name = $name ?: $this->getDefaultDriver();
+
+        unset($this->mailers[$name]);
+    }
+
+    /** Register a custom transport creator Closure. */
+    public function extend(string $driver, \Closure $callback): self
+    {
+        $this->customCreators[$driver] = $callback;
+
+        return $this;
+    }
+
+    /** Get the application instance used by the manager. */
+    public function getApplication(): Application
+    {
+        return $this->app;
+    }
+
+    private function hasCustomCreatorFor(string $transport): bool
+    {
+        return isset($this->customCreators[$transport]);
     }
 
     public function __call(string $method, array $arguments)
