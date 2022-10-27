@@ -31,15 +31,19 @@ final class BatchMailerMessage
 
     /** @var array<string, mixed> $headers */
     private array $headers = [];
-    private ?string $text = null;
-    private string $subject;
-    private Address $from;
+
+    /** @var array<string, int|float|string> $metadata */
+    private array $metadata = [];
+
+    /** @var array<int, string> $tags */
     private array $tags = [];
     private bool $shouldTrackOpenings = true;
     private ClickTracking $clickTrackingType = ClickTracking::HTML_AND_TEXT;
     private ?CarbonInterface $deliveryTime = null;
     private ?string $messageStream = null;
-    private array $metadata = [];
+    private ?string $text = null;
+    private string $subject;
+    private Address $from;
 
     /** @param array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $to */
     public function setTo(array $to): self
@@ -203,6 +207,7 @@ final class BatchMailerMessage
         return $this;
     }
 
+    /** @return array<int, Address> */
     public function recipients(): array
     {
         return $this->to;
@@ -223,9 +228,15 @@ final class BatchMailerMessage
         return $this->text;
     }
 
+    /** @return array<int, string> */
     public function tags(): array
     {
         return $this->tags;
+    }
+
+    public function firstTag(): string
+    {
+        return $this->tags()[0];
     }
 
     /** @return array<int, Address|null> */
