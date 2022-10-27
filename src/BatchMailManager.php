@@ -108,7 +108,6 @@ final class BatchMailManager implements Factory
         return new ArrayTransport();
     }
 
-
     protected function getConfig(string $name): ?array
     {
         return $this->app['config']['batch-mailer.driver']
