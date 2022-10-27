@@ -4,12 +4,14 @@ namespace InteractionDesignFoundation\BatchMailer\Transports;
 
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
+use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
 use InteractionDesignFoundation\BatchMailer\Exceptions\MissingRequiredParameter;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TooManyRecipients;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 use Mailgun\Mailgun;
+use Mailgun\Message\Exceptions\LimitExceeded;
 
 final class MailgunBatchTransport implements BatchTransport
 {
@@ -18,17 +20,12 @@ final class MailgunBatchTransport implements BatchTransport
     public function __construct(private readonly Mailgun $apiClient, private readonly string $domain)
     {}
 
-    /**
-     * @throws \InteractionDesignFoundation\BatchMailer\Exceptions\TooManyRecipients
-     * @throws \InteractionDesignFoundation\BatchMailer\Exceptions\MissingRequiredParameter
-     * @throws \Mailgun\Message\Exceptions\LimitExceeded
-     */
     public function send(BatchMailerMessage $batchMailerMessage): ?SentMessage
     {
         $recipientsCount = count($batchMailerMessage->recipients());
 
         if ($recipientsCount > self::MAX_RECIPIENTS) {
-            throw new TooManyRecipients("Number of recipients $recipientsCount is too high to send within a single batch.");
+            throw new TransportException("Number of recipients $recipientsCount is too high to send within a single batch.");
         }
 
         $message = $this->apiClient->messages()->getBatchMessage($this->domain);
@@ -61,7 +58,12 @@ final class MailgunBatchTransport implements BatchTransport
             }
 
             if ($batchMailerMessage->hasReplyToAddresses()) {
-                $message->setReplyToAddress($batchMailerMessage->replyTo()->email, ['full_name' => $batchMailerMessage->replyTo()->getFullName()]);
+                /**
+                 * Mailgun supports only one reply to address.
+                 *
+                 * @see https://help.mailgun.com/hc/en-us/articles/4401814149147-Adding-A-Reply-To-Address
+                 */
+                $message->setReplyToAddress($batchMailerMessage->replyTo()[0]->email, ['full_name' => $batchMailerMessage->replyTo()[0]->getFullName()]);
             }
 
             foreach ($batchMailerMessage->cc() as $cc) {
@@ -106,13 +108,17 @@ final class MailgunBatchTransport implements BatchTransport
             }
 
         } catch (\Mailgun\Message\Exceptions\TooManyRecipients $tooManyRecipients) {
-            throw new TooManyRecipients($tooManyRecipients->getMessage(), 0, $tooManyRecipients);
+            throw new TransportException($tooManyRecipients->getMessage(), 0, $tooManyRecipients);
+        } catch (LimitExceeded $limitExceeded) {
+            throw new TransportException($limitExceeded->getMessage(), 0, $limitExceeded);
+        } catch (\Throwable $throwable) {
+            throw new TransportException($throwable->getMessage(), 0, $throwable);
         }
 
         try {
             $message->finalize();
-        } catch (\Mailgun\Message\Exceptions\MissingRequiredParameter $missingRequiredParameter) {
-            throw new MissingRequiredParameter($missingRequiredParameter->getMessage(), 0, $missingRequiredParameter);
+        } catch (\Throwable $exception) {
+            throw new TransportException($exception->getMessage(), 0, $exception);
         }
 
         return new SentMessage($batchMailerMessage);

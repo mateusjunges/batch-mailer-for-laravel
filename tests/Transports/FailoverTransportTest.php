@@ -18,15 +18,6 @@ final class FailoverTransportTest extends TestCase
         $this->assertInstanceOf(FailoverTransport::class, $transport);
     }
 
-    /** @test */
-    public function it_uses_fallback_transport_if_the_first_fails(): void
-    {
-        $this->setFailoverConfig();
-
-        $this->markTestIncomplete();
-    }
-
-
     private function setFailoverConfig(): void
     {
         $this->app['config']->set('batch-mailer.default', 'failover');

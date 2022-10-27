@@ -12,6 +12,7 @@ use InteractionDesignFoundation\BatchMailer\Transports\MailgunBatchTransport;
 use InteractionDesignFoundation\BatchMailer\Transports\PostmarkBatchTransport;
 use Mailgun\Mailgun;
 
+/** @mixin \InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer */
 final class BatchMailManager implements Factory
 {
     /** @var array<string, BatchMailerContract>  */

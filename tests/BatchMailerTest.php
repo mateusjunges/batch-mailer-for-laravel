@@ -7,6 +7,10 @@ use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\HtmlString;
 use InteractionDesignFoundation\BatchMailer\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
+use InteractionDesignFoundation\BatchMailer\BatchMailManager;
+use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
+use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
+use InteractionDesignFoundation\BatchMailer\SentMessage;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use InteractionDesignFoundation\BatchMailer\Events\BatchMessageSent;
 use InteractionDesignFoundation\BatchMailer\Transports\ArrayTransport;
@@ -129,5 +133,61 @@ final class BatchMailerTest extends TestCase
         $mailer->send('foo', ['data'], function (BatchMailerMessage $message) {
             $message->addTo(new Address('taylor@laravel.com'))->setFrom(new Address('hello@laravel.com'));
         });
+    }
+
+    /** @test */
+    public function it_uses_fallback_transport_if_the_first_fails(): void
+    {
+        $this->app['config']->set('batch-mailer.default', 'failover');
+
+        $this->app['config']->set('batch-mailer.mailers', [
+            'failover' => [
+                'transport' => 'failover',
+                'mailers' => [
+                    'extended-fail',
+                    'extended',
+                ]
+            ],
+            'extended' => [
+                'transport' => 'extended'
+            ],
+            'extended-fail' => [
+                'transport' => 'extended-fail'
+            ]
+        ]);
+
+        $manager = new BatchMailManager($this->app);
+
+        $manager->extend('extended', function() {
+            return new class implements BatchTransport {
+                public function send(BatchMailerMessage $batchMailerMessage): ?SentMessage
+                {
+                    return new SentMessage($batchMailerMessage, 'sent-with-fallback-driver');
+                }
+
+                public function getNameSymbol(): string
+                {
+                    return 'extended';
+                }
+            };
+        });
+
+        $manager->extend('extended-fail', function() {
+            return new class implements BatchTransport {
+                public function send(BatchMailerMessage $batchMailerMessage): ?SentMessage
+                {
+                    throw new TransportException('This transport failed.');
+                }
+
+                public function getNameSymbol(): string
+                {
+                    return 'extended-fail';
+                }
+            };
+        });
+
+        $sentMessage = $manager->to([new Address('recipient@example.com')])->send(new TestMailable());
+
+        $this->assertEquals('sent-with-fallback-driver', $sentMessage->messageId());
     }
 }

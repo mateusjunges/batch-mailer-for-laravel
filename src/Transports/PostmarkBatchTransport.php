@@ -4,6 +4,7 @@ namespace InteractionDesignFoundation\BatchMailer\Transports;
 
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
+use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TooManyRecipients;
@@ -100,7 +101,11 @@ final class PostmarkBatchTransport implements BatchTransport
             $messages->push($message);
         }
 
-        Postmark::messages()->sendBatch($messages);
+        try {
+            Postmark::messages()->sendBatch($messages);
+        } catch (\Throwable $throwable) {
+            throw new TransportException($throwable->getMessage(), 0, $throwable);
+        }
 
         return new SentMessage($batchMailerMessage);
     }

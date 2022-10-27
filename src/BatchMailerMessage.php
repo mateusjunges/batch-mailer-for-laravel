@@ -239,7 +239,7 @@ final class BatchMailerMessage
         return $this->tags()[0];
     }
 
-    /** @return array<int, Address|null> */
+    /** @return array<int, Address> */
     public function replyTo(): array
     {
         return $this->replyTo;
