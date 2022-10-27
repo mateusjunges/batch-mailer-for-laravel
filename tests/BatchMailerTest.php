@@ -4,6 +4,7 @@ namespace InteractionDesignFoundation\BatchMailer\Tests;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\HtmlString;
 use InteractionDesignFoundation\BatchMailer\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
@@ -11,6 +12,7 @@ use InteractionDesignFoundation\BatchMailer\BatchMailManager;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
+use InteractionDesignFoundation\BatchMailer\Transports\FailoverTransport;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use InteractionDesignFoundation\BatchMailer\Events\BatchMessageSent;
 use InteractionDesignFoundation\BatchMailer\Transports\ArrayTransport;
@@ -186,8 +188,11 @@ final class BatchMailerTest extends TestCase
             };
         });
 
+        $transport = $manager->getBatchTransport();
+
         $sentMessage = $manager->to([new Address('recipient@example.com')])->send(new TestMailable());
 
         $this->assertEquals('sent-with-fallback-driver', $sentMessage->messageId());
+        $this->assertInstanceOf(FailoverTransport::class, $transport);
     }
 }
