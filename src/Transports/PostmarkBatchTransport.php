@@ -73,6 +73,7 @@ final class PostmarkBatchTransport implements BatchTransport
             }
 
             if ($batchMailerMessage->hasTag()) {
+                /** @see https://postmarkapp.com/developer/api/email-api#send-batch-emails */
                 $message->addTag($batchMailerMessage->firstTag());
             }
 
