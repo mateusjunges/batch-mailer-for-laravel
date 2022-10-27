@@ -67,7 +67,7 @@ final class PostmarkTransportTest extends TestCase
 
             assert($message instanceof Message);
 
-            if ($message->getToAddress() !== 'Bar <bar@foo.baz>') {
+            if ($message->getToAddress() !== ['Bar <bar@foo.baz>']) {
                 return false;
             }
 
