@@ -73,7 +73,7 @@ final class PostmarkBatchTransport implements BatchTransport
             }
 
             if ($batchMailerMessage->hasTag()) {
-                $message->addTag(implode(', ', $batchMailerMessage->tags()));
+                $message->addTag($batchMailerMessage->firstTag());
             }
 
             if ($batchMailerMessage->clickTrackingType() === ClickTracking::HTML_AND_TEXT) {

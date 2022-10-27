@@ -47,7 +47,9 @@ final class MailgunBatchTransport implements BatchTransport
 
             if ($batchMailerMessage->hasTag()) {
                 /** @see https://documentation.mailgun.com/en/latest/user_manual.html?highlight=X-Mailgun-Tag#sending-via-smtp */
-                $message->addTag(implode(', ', $batchMailerMessage->tags()));
+                foreach ($batchMailerMessage->tags() as $tag) {
+                    $message->addTag($tag);
+                }
             }
 
             if ($batchMailerMessage->shouldTrackOpenings()) {
