@@ -9,9 +9,9 @@ use InteractionDesignFoundation\BatchMailer\Tests\TestCase;
 use InteractionDesignFoundation\BatchMailer\Transports\PostmarkBatchTransport;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
-use Ixdf\Postmark\Api\Message\Requests\Batch;
-use Ixdf\Postmark\Api\Message\Requests\Message;
-use Ixdf\Postmark\Facades\Postmark;
+use InteractionDesignFoundation\Postmark\Api\Message\Requests\Batch;
+use InteractionDesignFoundation\Postmark\Api\Message\Requests\Message;
+use InteractionDesignFoundation\Postmark\Facades\Postmark;
 
 final class PostmarkTransportTest extends TestCase
 {

@@ -9,12 +9,12 @@ use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TooManyRecipients;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
-use Ixdf\Postmark\Api\Message\Requests\Address;
-use Ixdf\Postmark\Api\Message\Requests\Attachment as PostmarkAttachment;
-use Ixdf\Postmark\Api\Message\Requests\Batch;
-use Ixdf\Postmark\Api\Message\Requests\Message;
-use Ixdf\Postmark\Enums\TrackLinksEnum;
-use Ixdf\Postmark\Facades\Postmark;
+use InteractionDesignFoundation\Postmark\Api\Message\Requests\Address;
+use InteractionDesignFoundation\Postmark\Api\Message\Requests\Attachment as PostmarkAttachment;
+use InteractionDesignFoundation\Postmark\Api\Message\Requests\Batch;
+use InteractionDesignFoundation\Postmark\Api\Message\Requests\Message;
+use InteractionDesignFoundation\Postmark\Enums\TrackLinksEnum;
+use InteractionDesignFoundation\Postmark\Facades\Postmark;
 
 final class PostmarkBatchTransport implements BatchTransport
 {
