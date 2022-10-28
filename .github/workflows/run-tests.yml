@@ -27,6 +27,8 @@ jobs:
           coverage: pcov
 
       - name: Install Composer dependencies
+        env:
+          COMPOSER_AUTH: '{"github-oauth": {"github.com": "${{secrets.COMPOSER_AUTH}}"} }'
         run: |
           composer require "laravel/framework:${{ matrix.laravel }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --no-interaction --prefer-dist --no-suggest
