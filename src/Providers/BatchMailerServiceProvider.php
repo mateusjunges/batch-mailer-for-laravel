@@ -8,7 +8,12 @@ use InteractionDesignFoundation\BatchMailer\BatchMailManager;
 
 final class BatchMailerServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function boot(): void
+    {
+
+    }
+
+    public function register(): void
     {
         $this->registerBatchMailers();
     }
@@ -33,5 +38,12 @@ final class BatchMailerServiceProvider extends ServiceProvider
             'batch-mailer',
             fn(Application $app) => $app->make('batch-mailer.manager')->mailer()
         );
+    }
+
+    private function publishesConfiguration(): void
+    {
+        $this->publishes([
+            __DIR__."/../../config/batch-mailer.php" => config_path('batch-mailer.php')
+        ], 'batch-mailer-config');
     }
 }
