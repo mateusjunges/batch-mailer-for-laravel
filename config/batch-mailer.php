@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'default' => 'failover',
+    'default' => env('BATCH_MAILER', 'failover'),
 
     'mailers' => [
         'failover' => [
