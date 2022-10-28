@@ -33,5 +33,12 @@
             "type": "vcs",
             "url": "https://github.com/InteractionDesignFoundation/laravel-postmark-api"
         }
-    ]
+    ],
+    "extra": {
+        "laravel": {
+            "providers": [
+                "InteractionDesignFoundation\\BatchMailer\\Providers\\BatchMailerServiceProvider"
+            ]
+        }
+    }
 }
