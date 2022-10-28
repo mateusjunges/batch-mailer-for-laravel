@@ -1,5 +1,8 @@
 # Laravel batch mailer 
 
+A batch mailer driver for laravel with built in support for failover configuration.
+![](art/readme-banner.png)
+
 ## Installation
 You can require this package using composer:
 
