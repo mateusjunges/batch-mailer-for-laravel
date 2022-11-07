@@ -20,15 +20,15 @@ final class PostmarkBatchTransport implements BatchTransport
 {
     private const MAX_RECIPIENTS = 500;
 
-    /**
-     * @throws \InteractionDesignFoundation\BatchMailer\Exceptions\TooManyRecipients
-     */
     public function send(BatchMailerMessage $batchMailerMessage): ?SentMessage
     {
         $recipientsCount = count($batchMailerMessage->recipients());
 
         if ($recipientsCount > self::MAX_RECIPIENTS) {
-            throw new TooManyRecipients("Number of recipients $recipientsCount is too high to send within a single batch.");
+            $exception = new TransportException("Number of recipients $recipientsCount is too high to send within a single batch.");
+            $exception->appendDebug($exception->getMessage());
+
+            throw $exception;
         }
 
         $messages = new Batch();
@@ -104,7 +104,10 @@ final class PostmarkBatchTransport implements BatchTransport
         try {
             Postmark::messages()->sendBatch($messages);
         } catch (\Throwable $throwable) {
-            throw new TransportException($throwable->getMessage(), 0, $throwable);
+            $exception = new TransportException($throwable->getMessage(), 0, $throwable);
+            $exception->appendDebug($throwable->getMessage());
+
+            throw $exception;
         }
 
         return new SentMessage($batchMailerMessage);

@@ -100,6 +100,6 @@ abstract class RoundRobinTransport implements BatchTransport
 
     private function formatException(BatchTransport $transport, TransportException $exception): string
     {
-        return sprintf('Transport %s: %s', $transport, $exception->getDebug());
+        return sprintf('Transport %s: %s %s', $transport, $exception->getDebug(), PHP_EOL);
     }
 }

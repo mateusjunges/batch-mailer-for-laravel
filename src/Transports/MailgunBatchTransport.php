@@ -108,17 +108,29 @@ final class MailgunBatchTransport implements BatchTransport
             }
 
         } catch (\Mailgun\Message\Exceptions\TooManyRecipients $tooManyRecipients) {
-            throw new TransportException($tooManyRecipients->getMessage(), 0, $tooManyRecipients);
+            $exception = new TransportException($tooManyRecipients->getMessage(), 0, $tooManyRecipients);
+            $exception->appendDebug($tooManyRecipients->getMessage());
+
+            throw $exception;
         } catch (LimitExceeded $limitExceeded) {
-            throw new TransportException($limitExceeded->getMessage(), 0, $limitExceeded);
+            $exception = new TransportException($limitExceeded->getMessage(), 0, $limitExceeded);
+            $exception->appendDebug($limitExceeded->getMessage());
+
+            throw $exception;
         } catch (\Throwable $throwable) {
-            throw new TransportException($throwable->getMessage(), 0, $throwable);
+            $exception = new TransportException($throwable->getMessage(), 0, $throwable);
+            $exception->appendDebug($throwable->getMessage());
+
+            throw $exception;
         }
 
         try {
             $message->finalize();
         } catch (\Throwable $exception) {
-            throw new TransportException($exception->getMessage(), 0, $exception);
+            $transportException =  new TransportException($exception->getMessage(), 0, $exception);
+            $transportException->appendDebug($exception->getMessage());
+
+            throw $transportException;
         }
 
         return new SentMessage($batchMailerMessage);

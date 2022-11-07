@@ -3,6 +3,7 @@
 namespace InteractionDesignFoundation\BatchMailer\Tests\Transports;
 
 use Illuminate\Support\Facades\App;
+use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
 use InteractionDesignFoundation\BatchMailer\Tests\TestCase;
@@ -30,7 +31,7 @@ final class FailoverTransportTest extends TestCase
     }
 
     /** @test */
-    public function test_to_string()
+    public function test_to_string(): void
     {
         $transportOne = $this->createMock(BatchTransport::class);
         $transportOne->expects($this->once())->method('__toString')->willReturn('test_one');
@@ -41,6 +42,47 @@ final class FailoverTransportTest extends TestCase
 
         $this->assertEquals('failover(test_one test_two)', (string) $transport);
     }
+
+    /** @test */
+    public function send_with_all_transports_dead(): void
+    {
+        $t1 = $this->createMock(BatchTransport::class);
+        $t1->expects($this->once())->method('send')->will($this->throwException(new TransportException('Test')));
+        $t2 = $this->createMock(BatchTransport::class);
+        $t2->expects($this->once())->method('send')->will($this->throwException(new TransportException('Test 2')));
+        $t = new FailoverTransport([$t1, $t2]);
+        $this->expectException(TransportException::class);
+        $this->expectExceptionMessage('All transports failed.');
+        $t->send(new BatchMailerMessage());
+
+        $this->assertTransports($t, 1, [$t1, $t2]);
+    }
+
+    /** @test */
+    public function test_failure_debug_information()
+    {
+        $t1 = $this->createMock(BatchTransport::class);
+        $e1 = new TransportException();
+        $e1->appendDebug('Debug message 1');
+        $t1->expects($this->once())->method('send')->will($this->throwException($e1));
+        $t2 = $this->createMock(BatchTransport::class);
+        $e2 = new TransportException();
+        $e2->appendDebug('Debug message 2');
+        $t2->expects($this->once())->method('send')->will($this->throwException($e2));
+        $t = new FailoverTransport([$t1, $t2]);
+
+        try {
+            $t->send(new BatchMailerMessage());
+        } catch (TransportException $e) {
+            $this->assertStringContainsString($e1->getDebug(), $e->getDebug());
+            $this->assertStringContainsString($e2->getDebug(), $e->getDebug());
+
+            return;
+        }
+
+        $this->fail('Expected exception was not thrown!');
+    }
+
 
     private function setFailoverConfig(): void
     {
@@ -66,5 +108,23 @@ final class FailoverTransportTest extends TestCase
                 'transport' => 'array'
             ]
         ]);
+    }
+
+    /**
+     * @throws \ReflectionException
+     */
+    private function assertTransports(RoundRobinTransport $transport, int $cursor, array $deadTransports): int
+    {
+        $property = new \ReflectionProperty($transport, 'cursor');
+        if ($cursor !== -1) {
+            $this->assertSame($cursor, $property->getValue($transport));
+        }
+
+        $cursor = $property->getValue($transport);
+
+        $property = new \ReflectionProperty($transport, 'deadTransports');
+        $this->assertSame($deadTransports, iterator_to_array($property->getValue($transport)));
+
+        return $cursor;
     }
 }
