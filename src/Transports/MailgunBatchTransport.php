@@ -128,4 +128,9 @@ final class MailgunBatchTransport implements BatchTransport
     {
         return 'mailgun';
     }
+
+    public function __toString(): string
+    {
+        return $this->getNameSymbol();
+    }
 }

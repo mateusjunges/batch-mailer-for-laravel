@@ -24,15 +24,21 @@ abstract class RoundRobinTransport implements BatchTransport
 
     public function send(BatchMailerMessage $batchMailerMessage): ?SentMessage
     {
+        $exception = new TransportException('All transports failed.');
+
         while ($transport = $this->getNextTransport()) {
             try {
                 return $transport->send($batchMailerMessage);
-            } catch (TransportException) {
+            } catch (TransportException $transportException) {
+                $exception->appendDebug(
+                    $this->formatException($transport, $transportException)
+                );
+
                 $this->deadTransports[$transport] = microtime(true);
             }
         }
 
-        throw new TransportException('All transports failed.');
+        throw $exception;
     }
 
     protected function getNextTransport(): ?BatchTransport
@@ -85,5 +91,15 @@ abstract class RoundRobinTransport implements BatchTransport
     private function moveCursor(int $cursor): int
     {
         return ++$cursor >= \count($this->transports) ? 0 : $cursor;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getNameSymbol().'('.implode(' ', array_map('strval', $this->transports)).')';
+    }
+
+    private function formatException(BatchTransport $transport, TransportException $exception): string
+    {
+        return sprintf('Transport %s: %s', $transport, $exception->getDebug());
     }
 }

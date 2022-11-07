@@ -137,4 +137,9 @@ final class PostmarkBatchTransport implements BatchTransport
     {
         return 'postmark';
     }
+
+    public function __toString(): string
+    {
+        return $this->getNameSymbol();
+    }
 }

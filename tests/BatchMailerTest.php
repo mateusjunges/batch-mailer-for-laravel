@@ -171,6 +171,11 @@ final class BatchMailerTest extends TestCase
                 {
                     return 'extended';
                 }
+
+                public function __toString(): string
+                {
+                    return $this->getNameSymbol();
+                }
             };
         });
 
@@ -184,6 +189,11 @@ final class BatchMailerTest extends TestCase
                 public function getNameSymbol(): string
                 {
                     return 'extended-fail';
+                }
+
+                public function __toString(): string
+                {
+                    return $this->getNameSymbol();
                 }
             };
         });

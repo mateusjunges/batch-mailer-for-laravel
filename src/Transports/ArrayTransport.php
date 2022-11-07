@@ -39,4 +39,9 @@ final class ArrayTransport implements BatchTransport
     {
         return $this->messages = new Collection();
     }
+
+    public function __toString(): string
+    {
+        return $this->getNameSymbol();
+    }
 }

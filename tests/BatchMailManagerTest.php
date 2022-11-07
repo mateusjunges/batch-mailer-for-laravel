@@ -39,6 +39,11 @@ final class BatchMailManagerTest extends TestCase
                 {
                     return 'extended';
                 }
+
+                public function __toString(): string
+                {
+                    return $this->getNameSymbol();
+                }
             };
         });
 

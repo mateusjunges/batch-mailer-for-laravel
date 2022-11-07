@@ -10,4 +10,6 @@ interface BatchTransport
     public function send(BatchMailerMessage $batchMailerMessage): ?SentMessage;
 
     public function getNameSymbol(): string;
+
+    public function __toString(): string;
 }
