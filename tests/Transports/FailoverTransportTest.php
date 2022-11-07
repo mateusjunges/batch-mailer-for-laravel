@@ -83,6 +83,23 @@ final class FailoverTransportTest extends TestCase
         $this->fail('Expected exception was not thrown!');
     }
 
+    public function test_send_one_dead()
+    {
+        $t1 = $this->createMock(BatchTransport::class);
+        $t1->expects($this->once())->method('send')->will($this->throwException(new TransportException()));
+        $t2 = $this->createMock(BatchTransport::class);
+        $t2->expects($this->exactly(3))->method('send');
+        $t = new FailoverTransport([$t1, $t2]);
+        $p = new \ReflectionProperty($t, 'cursor');
+        $p->setValue($t, 0);
+        $t->send(new BatchMailerMessage());
+        $this->assertTransports($t, 0, [$t1]);
+        $t->send(new BatchMailerMessage());
+        $this->assertTransports($t, 0, [$t1]);
+        $t->send(new BatchMailerMessage());
+        $this->assertTransports($t, 0, [$t1]);
+    }
+
 
     private function setFailoverConfig(): void
     {

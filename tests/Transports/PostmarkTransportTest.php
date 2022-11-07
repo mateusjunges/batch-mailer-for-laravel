@@ -5,6 +5,7 @@ namespace InteractionDesignFoundation\BatchMailer\Tests\Transports;
 use Illuminate\Support\Facades\App;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TooManyRecipients;
+use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
 use InteractionDesignFoundation\BatchMailer\Tests\TestCase;
 use InteractionDesignFoundation\BatchMailer\Transports\PostmarkBatchTransport;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
@@ -35,7 +36,7 @@ final class PostmarkTransportTest extends TestCase
             $message->addTo(new Address("email$recipient@test.com", (string) $recipient));
         }
 
-        $this->expectException(TooManyRecipients::class);
+        $this->expectException(TransportException::class);
 
         $transport->send($message);
     }

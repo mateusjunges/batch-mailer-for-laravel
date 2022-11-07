@@ -10,8 +10,8 @@ use InteractionDesignFoundation\BatchMailer\SentMessage;
 abstract class RoundRobinTransport implements BatchTransport
 {
     /** @var \SplObjectStorage<BatchTransport, float> $deadTransports*/
-    private \SplObjectStorage $deadTransports;
-    private int $cursor = -1;
+    protected \SplObjectStorage $deadTransports;
+    protected int $cursor = -1;
 
     public function __construct(private readonly array $transports, private readonly int $retryPeriod = 60)
     {
