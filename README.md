@@ -65,4 +65,11 @@ Once your failover mailer has been defined, you should set this mailer as the de
 ```
 
 ## Generating Mailables
-(WIP)
+When building Laravel applications, each type of batch emails sent by your application is represented by a "`Mailable`" class. The classes are stored in the `app/Mail/BatchMail` directory. Don't worry if you don't see this directory in your application, since it will be generated for you when you create your first mailable using the `make:batch-mail` command.
+
+```bash
+php artisan make:batch-mail TestBatchMail
+```
+
+## Writing Mailables
+Once you have generated a mailable class, open it up, so we can explore its contents. Mailable class configuration is done in several methods, including the `build` and `attachments` methods.
