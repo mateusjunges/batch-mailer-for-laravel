@@ -1,0 +1,39 @@
+<?php
+
+namespace {{ namespace }};
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Mail\Mailables\Content;
+use Illuminate\Mail\Mailables\Envelope;
+use Illuminate\Queue\SerializesModels;
+use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
+use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
+
+class {{ class }} extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    /**
+     * Create a new message instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+
+    public function build(): BatchMailable
+    {
+        return $this->from(new Address('from@example.com', 'Name'))
+            ->view('mail.example');
+    }
+
+    /** @return array<int, Attachment> */
+    public function attachments(): array
+    {
+        return [];
+    }
+}
