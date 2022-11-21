@@ -12,7 +12,6 @@ use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 class Mailable implements BatchMailable

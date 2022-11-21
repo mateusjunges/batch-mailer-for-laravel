@@ -2,8 +2,8 @@
 
 namespace InteractionDesignFoundation\BatchMailer\Tests;
 
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\AssertionFailedError;
 
 final class MailableTest extends TestCase
