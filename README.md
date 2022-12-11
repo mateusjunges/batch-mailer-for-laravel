@@ -191,12 +191,12 @@ Once the data has been passed to the `with` method, it will automatically be ava
 To add attachments to an email, you will add attachments to the array returned by the message's `attachments` method. First, you may add an attachment by providing a file path to the `fromPath` method provided by the `Attachment` class:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
+use InteractionDesignFoundation\BatchMailer\Mailable\Attachment;
  
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment[]
+ * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment[]
  */
 public function attachments()
 {
@@ -206,4 +206,197 @@ public function attachments()
 }
 ```
 
-When attaching files to a message, you may also specify the display name and/or MIME type for the attachment using the 
+When attaching files to a message, you may also specify the display name and/or MIME type for the attachment using the `as` and `withMime` methods:
+
+```php
+/**
+ * Get the attachments for the message.
+ *
+ * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment[]
+ */
+public function attachments()
+{
+    return [
+        Attachment::fromPath('/path/to/file')
+            ->as('name.pdf')
+            ->withMime('application/pdf'),
+    ];
+}
+```
+
+### Attaching files from disk
+If you have stored a file in one of your [filesystem disks](https://laravel.com/docs/9.x/filesystem), you may attach it to the email using the `fromStorage` method:
+
+```php
+/**
+ * Get the attachments for the message.
+ *
+ * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment[]
+ */
+public function attachments()
+{
+    return [
+        Attachment::fromStorage('/path/to/file'),
+    ];
+}
+```
+
+Of course, you may also specify the attachment's name and MIME type:
+
+```php
+/**
+ * Get the attachments for the message.
+ *
+ * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment[]
+ */
+public function attachments()
+{
+    return [
+        Attachment::fromStorage('/path/to/file')
+            ->as('name.pdf')
+            ->withMime('application/pdf'),
+    ];
+}
+```
+
+The `fromStorageDisk` method may be used if you need to specify a storage disk other than your default disk:
+
+```php
+/**
+ * Get the attachments for the message.
+ *
+ * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment[]
+ */
+public function attachments()
+{
+    return [
+        Attachment::fromStorageDisk('s3', '/path/to/file')
+            ->as('name.pdf')
+            ->withMime('application/pdf'),
+    ];
+}
+```
+
+## Attachable objects
+While attaching files to messages via simple string paths is often sufficient, in many cases the attachable entities within your application are represented by classes. For example, if your application is attaching a photo to a message, your application may also have a `Photo` model that represents that photo. When that is the case, wouldn't it be convenient to simply pass the `Photo` model to the `attach` method? Attachable objects allow you to do just that.
+
+To get started, implement the `InteractionDesignFoundation\BatchMailer\Contracts\Attachable` interface on the object that will be attachable to messages. This interface dictates that your class defines a toMailAttachment method that returns an `\InteractionDesignFoundation\BatchMailer\Mailable\Attachment` instance:
+
+```php
+<?php
+ 
+namespace App\Models;
+ 
+use Illuminate\Contracts\Mail\Attachable;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Mail\Attachment;
+ 
+class Photo extends Model implements Attachable
+{
+    /**
+     * Get the attachable representation of the model.
+     *
+     * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment
+     */
+    public function toMailAttachment()
+    {
+        return Attachment::fromPath('/path/to/file');
+    }
+}
+```
+Once you have defined your attachable object, you may return an instance of that object from the `attachments` method when building an email message:
+
+```php
+/**
+ * Get the attachments for the message.
+ *
+ * @return array
+ */
+public function attachments()
+{
+    return [$this->photo];
+}
+```
+
+## Tags & Metadata
+Some third-party email providers such as Mailgun and Postmark support message "tags" and "metadata", which may be used to group and track emails sent by your application. You may add tags and metadata to an email message using the `tag` and `metadata` methods:
+
+```php
+use InteractionDesignFoundation\BatchMailer\Mailable;
+
+class OrderShipped extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    public function __construct(
+        public \App\Models\Order $order
+    ){}
+ 
+    public function build()
+    {
+        return $this->tag('example-tag')
+            ->metadata('key', 'value');
+    }
+}
+```
+
+If your application is using the Mailgun driver, you may consult Mailgun's documentation for more information on [tags](https://documentation.mailgun.com/en/latest/user_manual.html#tagging-1) and [metadata](https://documentation.mailgun.com/en/latest/user_manual.html#attaching-data-to-messages). Likewise, the Postmark documentation may also be consulted for more information on their support for [tags](https://postmarkapp.com/blog/tags-support-for-smtp) and [metadata](https://postmarkapp.com/support/article/1125-custom-metadata-faq).
+
+## Sending Mail
+To send a message, use the `to` method on the `BatchMail` facade. The `to` method accepts an array of `\InteractionDesignFoundation\BatchMailer\ValueObjects\Address` address objects. Once you have specified your recipients, you may pass an instance of your mailable clas to the `send` method:
+
+```php
+<?php
+ 
+namespace App\Http\Controllers;
+ 
+use App\Http\Controllers\Controller;
+use App\Mail\OrderShipped;
+use App\Models\Order;
+use Illuminate\Http\Request;
+use InteractionDesignFoundation\BatchMailer\Facades\BatchMail;use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
+ 
+class OrderShipmentController extends Controller
+{
+    /**
+     * Ship the given order.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $order = Order::findOrFail($request->order_id);
+ 
+        // Ship the order...
+ 
+        BatchMail::to([
+            new Address($buyer->email, $buyer->name),
+            new Address($seller->email, $buyer->name),
+            // ...
+        ])->send(new OrderShipped($order));
+    }
+}
+```
+
+You are not limited to just specifying the "to" recipients when sending a message. You are free to set "to", "cc", and "bcc" recipients by chaining their respective methods together:
+
+```php
+BatchMail::to([
+    new Address($buyer->email, $buyer->name),
+    new Address($seller->email, $buyer->name),
+    // ...
+    ])
+    ->cc($moreAddresses)
+    ->bcc($evenMoreAddresses)
+    ->send(new OrderShipped($order));
+```
+
+### Sending mail via a specific mailer
+By default, this package will send email using the mailer configured as the `default` mailer in your application's `mail` configuration file. However, you may use the mailer method to send a message using a specific `mailer` configuration:
+
+```php
+Mail::mailer('postmark')
+    ->to($addresses)
+    ->send(new OrderShipped($order));
+```
