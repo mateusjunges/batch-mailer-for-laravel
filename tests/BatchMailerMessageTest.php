@@ -64,8 +64,9 @@ final class BatchMailerMessageTest extends TestCase
                 {
                     return Attachment::fromPath(__DIR__."/test-file-attachment.txt")->as('bar')->withMime('text/plain');
                 }
-            }
+            },
         );
+        $mailable->attach(Attachment::fromPath(__DIR__."/test-file-attachment.txt")->as('pdf-file')->withMime('text/pdf'));
 
         $this->assertSame([
             'attachment' => __DIR__."/test-file-attachment.txt",
@@ -74,8 +75,14 @@ final class BatchMailerMessageTest extends TestCase
                 'mime' => 'text/plain'
             ],
         ], $mailable->attachments[0]);
+        $this->assertSame([
+            'attachment' => __DIR__."/test-file-attachment.txt",
+            'options' => [
+                'as' => 'pdf-file',
+                'mime' => 'text/pdf'
+            ],
+        ], $mailable->attachments[1]);
     }
-
 }
 
 class ExampleMailable extends Mailable

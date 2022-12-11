@@ -452,7 +452,7 @@ class Mailable implements BatchMailable
             return $attachment->attachTo($this);
         }
 
-        $this->attachments = collect($this->attachments)
+        $this->attachments[] = collect($this->attachments)
             ->push(compact('attachment', 'options'))
             ->unique('attachment')
             ->all();
