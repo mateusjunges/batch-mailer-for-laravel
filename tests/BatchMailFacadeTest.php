@@ -2,7 +2,7 @@
 
 namespace InteractionDesignFoundation\BatchMailer\Tests;
 
-use InteractionDesignFoundation\BatchMailer\BatchMail;
+use InteractionDesignFoundation\BatchMailer\Facades\BatchMail;
 use InteractionDesignFoundation\BatchMailer\PendingBatchMail;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
