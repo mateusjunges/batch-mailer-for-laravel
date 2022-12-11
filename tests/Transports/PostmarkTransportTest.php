@@ -4,7 +4,6 @@ namespace InteractionDesignFoundation\BatchMailer\Tests\Transports;
 
 use Illuminate\Support\Facades\App;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TooManyRecipients;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
 use InteractionDesignFoundation\BatchMailer\Tests\TestCase;
 use InteractionDesignFoundation\BatchMailer\Transports\PostmarkBatchTransport;
