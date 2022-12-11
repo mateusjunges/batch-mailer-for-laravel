@@ -186,3 +186,24 @@ Once the data has been passed to the `with` method, it will automatically be ava
     Price: {{ $orderPrice }}
 </div>
 ```
+
+## Attachments
+To add attachments to an email, you will add attachments to the array returned by the message's `attachments` method. First, you may add an attachment by providing a file path to the `fromPath` method provided by the `Attachment` class:
+
+```php
+use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
+ 
+/**
+ * Get the attachments for the message.
+ *
+ * @return \InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment[]
+ */
+public function attachments()
+{
+    return [
+        Attachment::fromPath('/path/to/file'),
+    ];
+}
+```
+
+When attaching files to a message, you may also specify the display name and/or MIME type for the attachment using the 
