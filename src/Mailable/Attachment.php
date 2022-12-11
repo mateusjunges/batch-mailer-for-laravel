@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\ValueObjects;
+namespace InteractionDesignFoundation\BatchMailer\Mailable;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\Factory;
@@ -30,7 +30,14 @@ final class Attachment
         ))->as($name);
     }
 
-    public static function fromStorage(string|null $disk, string $path): self
+    /** Create a mail attachment from a file in the specified storage disk. */
+    public static function fromStorage(string $path): self
+    {
+        return self::fromStorageDisk(null, $path);
+    }
+
+    /** Create a mail attachment from a file in the default storage disk. */
+    public static function fromStorageDisk(string|null $disk, string $path): self
     {
         return new self(function (Attachment $attachment, \Closure $pathStrategy, \Closure $dataStrategy) use ($disk, $path) {
             $storage = Container::getInstance()->make(

@@ -4,11 +4,9 @@ namespace InteractionDesignFoundation\BatchMailer\Transports;
 
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
-use InteractionDesignFoundation\BatchMailer\Exceptions\MissingRequiredParameter;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TooManyRecipients;
+use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
+use InteractionDesignFoundation\BatchMailer\Mailable\Attachment;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 use Mailgun\Mailgun;
 use Mailgun\Message\Exceptions\LimitExceeded;

@@ -6,8 +6,8 @@ use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\Attachable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\Mailable\Attachment;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 
 final class BatchMailerMessageTest extends TestCase
 {

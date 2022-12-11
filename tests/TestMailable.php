@@ -4,8 +4,8 @@ namespace InteractionDesignFoundation\BatchMailer\Tests;
 
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\Mailable\Attachment;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 
 class TestMailable extends Mailable {
     /** @return array<int, Attachment> */
