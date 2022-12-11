@@ -12,10 +12,7 @@ class TestMailable extends Mailable {
     public function attachments(): array
     {
         return [
-            new Attachment(
-                __DIR__."/test-file-attachment.txt",
-                'Test File Attachment'
-            )
+            Attachment::fromPath(__DIR__."/test-file-attachment.txt")->as('Test File Attachment')
         ];
     }
 

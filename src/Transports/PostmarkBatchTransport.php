@@ -7,7 +7,6 @@ use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TooManyRecipients;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 use InteractionDesignFoundation\Postmark\Api\Message\Requests\Address;
 use InteractionDesignFoundation\Postmark\Api\Message\Requests\Attachment as PostmarkAttachment;
@@ -67,9 +66,9 @@ final class PostmarkBatchTransport implements BatchTransport
                 assert($attachment instanceof Attachment);
 
                 $message->addAttachment(PostmarkAttachment::fromFile(
-                    $attachment->filePath,
-                    $attachment->name,
-                    $this->guessMimeType($attachment)
+                    $attachment['attachment'],
+                    $attachment['options']['as'] ?? basename($attachment['attachment']),
+                    $attachment['options']['mime'] ?? $this->guessMimeType($attachment['attachment'])
                 ));
             }
 
@@ -127,13 +126,11 @@ final class PostmarkBatchTransport implements BatchTransport
         return $postmarkHeaders;
     }
 
-    private function guessMimeType(Attachment $attachment): string
+    private function guessMimeType(string $filePath): string
     {
-        $mime = mime_content_type($attachment->filePath) ? mime_content_type($attachment->filePath) : null;
+        $mime = mime_content_type($filePath) ? mime_content_type($filePath) : null;
 
-        return $attachment->mimeType
-            ?? $mime
-            ?? 'application/octet-stream';
+        return $mime ?? 'application/octet-stream';
     }
 
     public function getNameSymbol(): string

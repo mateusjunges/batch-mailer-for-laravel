@@ -3,6 +3,7 @@
 namespace InteractionDesignFoundation\BatchMailer;
 
 use Carbon\CarbonInterface;
+use InteractionDesignFoundation\BatchMailer\Contracts\Attachable;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
@@ -95,11 +96,24 @@ final class BatchMailerMessage
         return $this;
     }
 
-    public function attach(Attachment $attachment): self
+    public function attach(Attachment|Attachable|string $attachment, array $options = []): self
     {
-        $this->attachments[] = $attachment;
+        if ($attachment instanceof Attachable) {
+            $attachment = $attachment->toMailAttachment();
+        }
+
+        if ($attachment instanceof Attachment) {
+            return $attachment->attachTo($this);
+        }
+
+        $this->attachments[] = compact('attachment', 'options');
 
         return $this;
+    }
+
+    public function attachData(string $data, string $name, array $options = []): self
+    {
+//        $this->attach()
     }
 
     public function addCampaignId(string $campaignId): self

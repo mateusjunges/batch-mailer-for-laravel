@@ -3,7 +3,11 @@
 namespace InteractionDesignFoundation\BatchMailer\Tests;
 
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
+use InteractionDesignFoundation\BatchMailer\Contracts\Attachable;
+use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
+use InteractionDesignFoundation\BatchMailer\Mailable;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
+use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 
 final class BatchMailerMessageTest extends TestCase
 {
@@ -50,5 +54,36 @@ final class BatchMailerMessageTest extends TestCase
         $this->assertSame('foo', $message->subject());
     }
 
+    public function test_attachment(): void
+    {
+        $mailable = new ExampleMailable();;
+        $mailable->attach(
+            new class() implements Attachable
+            {
+                public function toMailAttachment(): Attachment
+                {
+                    return Attachment::fromPath(__DIR__."/test-file-attachment.txt")->as('bar')->withMime('text/plain');
+                }
+            }
+        );
 
+        $this->assertSame([
+            'attachment' => __DIR__."/test-file-attachment.txt",
+            'options' => [
+                'as' => 'bar',
+                'mime' => 'text/plain'
+            ],
+        ], $mailable->attachments[0]);
+    }
+
+}
+
+class ExampleMailable extends Mailable
+{
+    public function build(): BatchMailable
+    {
+        return $this->from(new Address('from@example.com', 'From'))
+            ->replyTo('mateus@example.com', 'Mateus')
+            ->html("<html>Test</html>");
+    }
 }

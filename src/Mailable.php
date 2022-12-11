@@ -5,13 +5,16 @@ namespace InteractionDesignFoundation\BatchMailer;
 use Illuminate\Container\Container;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
+use InteractionDesignFoundation\BatchMailer\Contracts\Attachable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
+use InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 class Mailable implements BatchMailable
@@ -52,6 +55,8 @@ class Mailable implements BatchMailable
 
     /** @var array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Attachment>  */
     public array $attachments = [];
+
+    public array $rawAttachments = [];
 
     /** The tags for the message. */
     protected array $tags = [];
@@ -420,6 +425,9 @@ class Mailable implements BatchMailable
 
         $attachments = $this->attachments();
 
+        Collection::make(is_object($attachments) ? [$attachments] : $attachments)
+            ->each(fn ($attachment) => $this->attach($attachment));
+
         $this->withBatchMailerMessage(function (BatchMailerMessage $message) use ($attachments) {
             foreach ($attachments as $attachment) {
                 $message->attach($attachment);
@@ -430,6 +438,36 @@ class Mailable implements BatchMailable
     protected function withBatchMailerMessage(\Closure $callback): self
     {
         $this->callbacks[] = $callback;
+
+        return $this;
+    }
+
+    public function attach(Attachable|Attachment|string $attachment, array $options = []): self
+    {
+        if ($attachment instanceof Attachable) {
+            $attachment = $attachment->toMailAttachment();
+        }
+
+        if ($attachment instanceof Attachment) {
+            return $attachment->attachTo($this);
+        }
+
+        $this->attachments = collect($this->attachments)
+            ->push(compact('attachment', 'options'))
+            ->unique('attachment')
+            ->all();
+
+        return $this;
+    }
+
+
+    /** Attach in-memory data as an attachment. */
+    public function attachData(string $data, string $name, array $options = []): self
+    {
+        $this->rawAttachments = collect($this->rawAttachments)
+            ->push(compact('data', 'name', 'options'))
+            ->unique(fn ($file) => $file['name'].$file['data'])
+            ->all();
 
         return $this;
     }

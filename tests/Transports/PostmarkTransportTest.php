@@ -129,10 +129,7 @@ final class PostmarkTransportTest extends TestCase
             ->setSubject('Foo bar')
             ->addReplyTo(new Address('reply@to.foo', 'Reply To'))
             ->setText('Hi')
-            ->attach(new Attachment(
-                __DIR__."/../test-file-attachment.txt",
-                'Testing attachments',
-            ))
+            ->attach(Attachment::fromPath(__DIR__."/../test-file-attachment.txt"))
             ->setMessageStream('broadcast')
             ->setHtml('<html>Hi</html>');
 
@@ -144,10 +141,10 @@ final class PostmarkTransportTest extends TestCase
             assert($message instanceof Message);
 
             $expected = [
-                "Name" => "VGVzdCBmaWxlIGF0dGFjaG1lbnQ=",
-                "Content" => "Testing attachments",
+                "Name" => "test-file-attachment.txt",
+                "Content" => "VGVzdCBmaWxlIGF0dGFjaG1lbnQ=",
                 "ContentType" => "text/plain",
-                "ContentId" => "VGVzdCBmaWxlIGF0dGFjaG1lbnQ=",
+                "ContentId" => "test-file-attachment.txt",
             ];
 
             if ($message->getAttachments()[0] !== $expected) {
