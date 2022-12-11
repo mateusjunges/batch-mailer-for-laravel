@@ -285,9 +285,10 @@ class Mailable implements BatchMailable
     }
 
     /** Set the rendered HTML content for the message. */
-    public function html(string $html): BatchMailable
+    public function html(string $html, array $data = []): BatchMailable
     {
         $this->html = $html;
+        $this->viewData = array_merge($this->viewData, $data);
 
         return $this;
     }
