@@ -9,11 +9,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
-use InteractionDesignFoundation\BatchMailer\Contracts\Attachable;
+use Illuminate\Contracts\Mail\Attachable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
-use InteractionDesignFoundation\BatchMailer\Mailable\Attachment;
+use Illuminate\Mail\Attachment;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\Assert as PHPUnit;
 
@@ -452,7 +452,7 @@ class Mailable implements BatchMailable
             return $attachment->attachTo($this);
         }
 
-        $this->attachments[] = collect($this->attachments)
+        $this->attachments = collect($this->attachments)
             ->push(compact('attachment', 'options'))
             ->unique('attachment')
             ->all();

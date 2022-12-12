@@ -2,11 +2,11 @@
 
 namespace InteractionDesignFoundation\BatchMailer\Tests;
 
+use Illuminate\Contracts\Mail\Attachable;
+use Illuminate\Mail\Attachment;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\Contracts\Attachable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Mailable;
-use InteractionDesignFoundation\BatchMailer\Mailable\Attachment;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 
 final class BatchMailerMessageTest extends TestCase
@@ -66,7 +66,7 @@ final class BatchMailerMessageTest extends TestCase
                 }
             },
         );
-        $mailable->attach(Attachment::fromPath(__DIR__."/test-file-attachment.txt")->as('pdf-file')->withMime('text/pdf'));
+        $mailable->attach(Attachment::fromPath(__DIR__."/test-file-attachment-1.txt")->as('pdf-file')->withMime('text/pdf'));
 
         $this->assertSame([
             'attachment' => __DIR__."/test-file-attachment.txt",
@@ -76,7 +76,7 @@ final class BatchMailerMessageTest extends TestCase
             ],
         ], $mailable->attachments[0]);
         $this->assertSame([
-            'attachment' => __DIR__."/test-file-attachment.txt",
+            'attachment' => __DIR__."/test-file-attachment-1.txt",
             'options' => [
                 'as' => 'pdf-file',
                 'mime' => 'text/pdf'

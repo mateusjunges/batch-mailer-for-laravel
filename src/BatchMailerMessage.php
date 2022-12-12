@@ -3,9 +3,9 @@
 namespace InteractionDesignFoundation\BatchMailer;
 
 use Carbon\CarbonInterface;
-use InteractionDesignFoundation\BatchMailer\Contracts\Attachable;
+use Illuminate\Contracts\Mail\Attachable;
+use Illuminate\Mail\Attachment;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
-use InteractionDesignFoundation\BatchMailer\Mailable\Attachment;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 
 final class BatchMailerMessage
@@ -22,7 +22,7 @@ final class BatchMailerMessage
     /** @var array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $bcc*/
     private array $bcc = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailable\Attachment> $attachments */
+    /** @var array<int, \Illuminate\Mail\Attachment> $attachments */
     private array $attachments = [];
 
     /** @var array<int, string> $campaignIds */
@@ -272,7 +272,7 @@ final class BatchMailerMessage
         return $this->headers;
     }
 
-    /** @return array<int, \InteractionDesignFoundation\BatchMailer\Mailable\Attachment> */
+    /** @return array<int, \Illuminate\Mail\Attachment> */
     public function attachments(): array
     {
         return $this->attachments;
