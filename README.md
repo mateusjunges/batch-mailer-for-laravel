@@ -196,7 +196,7 @@ use InteractionDesignFoundation\BatchMailer\Mailable\Attachment;
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment[]
+ * @return \Illuminate\Mail\Attachment[]
  */
 public function attachments()
 {
@@ -212,7 +212,7 @@ When attaching files to a message, you may also specify the display name and/or 
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment[]
+ * @return \Illuminate\Mail\Attachment[]
  */
 public function attachments()
 {
@@ -231,7 +231,7 @@ If you have stored a file in one of your [filesystem disks](https://laravel.com/
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment[]
+ * @return \Illuminate\Mail\Attachment[]
  */
 public function attachments()
 {
@@ -247,7 +247,7 @@ Of course, you may also specify the attachment's name and MIME type:
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment[]
+ * @return \Illuminate\Mail\Attachment[]
  */
 public function attachments()
 {
@@ -265,7 +265,7 @@ The `fromStorageDisk` method may be used if you need to specify a storage disk o
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment[]
+ * @return \Illuminate\Mail\Attachment[]
  */
 public function attachments()
 {
@@ -280,7 +280,7 @@ public function attachments()
 ## Attachable objects
 While attaching files to messages via simple string paths is often sufficient, in many cases the attachable entities within your application are represented by classes. For example, if your application is attaching a photo to a message, your application may also have a `Photo` model that represents that photo. When that is the case, wouldn't it be convenient to simply pass the `Photo` model to the `attach` method? Attachable objects allow you to do just that.
 
-To get started, implement the `InteractionDesignFoundation\BatchMailer\Contracts\Attachable` interface on the object that will be attachable to messages. This interface dictates that your class defines a toMailAttachment method that returns an `\InteractionDesignFoundation\BatchMailer\Mailable\Attachment` instance:
+To get started, implement the `\Illuminate\Contracts\Mail\Attachable` interface on the object that will be attachable to messages. This interface dictates that your class defines a toMailAttachment method that returns an `\Illuminate\Mail\Attachment` instance:
 
 ```php
 <?php
@@ -296,7 +296,7 @@ class Photo extends Model implements Attachable
     /**
      * Get the attachable representation of the model.
      *
-     * @return \InteractionDesignFoundation\BatchMailer\Mailable\Attachment
+     * @return \Illuminate\Mail\Attachment
      */
     public function toMailAttachment()
     {
