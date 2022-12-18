@@ -4,6 +4,7 @@ namespace InteractionDesignFoundation\BatchMailer\Tests;
 
 use InteractionDesignFoundation\BatchMailer\Mailable;
 use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\AssertionFailedError;
 
@@ -54,17 +55,20 @@ class WelcomeMailableStub extends Mailable
 
     protected string $version = '10.x';
 
-    public function build()
+    public function envelope(): Envelope
     {
-        $this->with('first_name', 'Mateus')
-            ->with('last_name', 'Junges');
+        return new Envelope(from: new Address('from@example.com', 'From'));
     }
 
     public function content(): Content
     {
         return new Content(
             html: "<html>Test</html>",
-            text: "Test"
+            text: "Test",
+            with: [
+                'first_name' => 'Mateus',
+                'last_name' => 'Junges',
+            ],
         );
     }
 }

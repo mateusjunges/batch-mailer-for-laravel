@@ -8,6 +8,7 @@ use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Mailable;
 use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 
 final class BatchMailerMessageTest extends TestCase
@@ -88,10 +89,15 @@ final class BatchMailerMessageTest extends TestCase
 
 class ExampleMailable extends Mailable
 {
-    public function build(): BatchMailable
+    public function envelope(): Envelope
     {
-        return $this->from(new Address('from@example.com', 'From'))
-            ->replyTo('mateus@example.com', 'Mateus');
+        return new Envelope(
+            from: new Address('from@example.com', 'From'),
+            replyTo: [
+                'email' => 'mateus@example.com',
+                'name' => 'Mateus'
+            ]
+        );
     }
 
     public function content(): Content

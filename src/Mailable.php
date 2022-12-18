@@ -15,6 +15,7 @@ use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
 use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
 use InteractionDesignFoundation\BatchMailer\Mailables\Headers;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -115,17 +116,6 @@ abstract class Mailable implements BatchMailable
             $message->setSubject($this->subject);
         } else {
             $message->setSubject(Str::title(Str::snake(class_basename($this), ' ')));
-        }
-
-        return $this;
-    }
-
-    public function with(string|array $key, mixed $value): self
-    {
-        if (is_array($key)) {
-            $this->viewData = array_merge($this->viewData, $key);
-        } else {
-            $this->viewData[$key] = $value;
         }
 
         return $this;
@@ -263,30 +253,6 @@ abstract class Mailable implements BatchMailable
         return $this;
     }
 
-    /** Set the subject of the message. */
-    public function subject(string $subject): BatchMailable
-    {
-        $this->subject = $subject;
-
-        return $this;
-    }
-
-    /** Add a tag header to the message when supported by the underlying transport. */
-    public function tag(string $tag): BatchMailable
-    {
-        $this->tags[] = $tag;
-
-        return $this;
-    }
-
-    /** Add a metadata header when supported by the underlying transport. */
-    public function metadata(string $key, string $value): BatchMailable
-    {
-        $this->metadata[$key] = $value;
-
-        return $this;
-    }
-
     protected function getAddresses(Address|string|array $addresses, string $name = null): array
     {
         $addresses = Arr::wrap($addresses);
@@ -358,10 +324,7 @@ abstract class Mailable implements BatchMailable
 
     private function prepareMailableForDelivery(): void
     {
-        if (method_exists($this, 'build')) {
-            Container::getInstance()->call([$this, 'build']);
-        }
-
+        $this->ensureEnvelopeIsHydrated();
         $this->ensureAttachmentsAreHydrated();
         $this->ensureContentIsHydrated();
         $this->ensureHeadersAreHydrated();
@@ -380,6 +343,20 @@ abstract class Mailable implements BatchMailable
         }
 
         $this->viewData = $content->with;
+    }
+
+    private function ensureEnvelopeIsHydrated(): void
+    {
+        $envelope = $this->envelope();
+
+        $this->from = $envelope->from;
+        $this->subject = $envelope->subject;
+        $this->to = $envelope->to;
+        $this->cc = $envelope->cc;
+        $this->bcc = $envelope->bcc;
+        $this->replyTo = $envelope->replyTo;
+        $this->tags = $envelope->tags;
+        $this->metadata = $envelope->metadata;
     }
 
     private function ensureHeadersAreHydrated(): void
@@ -414,7 +391,7 @@ abstract class Mailable implements BatchMailable
 
         $attachments = $this->attachments();
 
-        Collection::make(is_object($attachments) ? [$attachments] : $attachments)
+        Collection::make($attachments)
             ->each(fn ($attachment) => $this->attach($attachment));
 
         $this->withBatchMailerMessage(function (BatchMailerMessage $message) use ($attachments) {
@@ -449,7 +426,6 @@ abstract class Mailable implements BatchMailable
         return $this;
     }
 
-
     /** Attach in-memory data as an attachment. */
     public function attachData(string $data, string $name, array $options = []): self
     {
@@ -462,4 +438,6 @@ abstract class Mailable implements BatchMailable
     }
 
     abstract public function content(): Content;
+
+    abstract public function envelope(): Envelope;
 }
