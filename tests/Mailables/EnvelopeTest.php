@@ -3,7 +3,6 @@
 namespace InteractionDesignFoundation\BatchMailer\Tests\Mailables;
 
 use InteractionDesignFoundation\BatchMailer\Mailables\Address;
-use InteractionDesignFoundation\BatchMailer\Mailables\Content;
 use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
 use InteractionDesignFoundation\BatchMailer\Tests\TestCase;
 
