@@ -3,6 +3,7 @@
 namespace InteractionDesignFoundation\BatchMailer\Tests;
 
 use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\Mailables\Content;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\AssertionFailedError;
 
@@ -57,5 +58,13 @@ class WelcomeMailableStub extends Mailable
     {
         $this->with('first_name', 'Mateus')
             ->with('last_name', 'Junges');
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            html: "<html>Test</html>",
+            text: "Test"
+        );
     }
 }

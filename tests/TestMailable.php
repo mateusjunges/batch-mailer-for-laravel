@@ -5,6 +5,7 @@ namespace InteractionDesignFoundation\BatchMailer\Tests;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Mailable;
 use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
+use InteractionDesignFoundation\BatchMailer\Mailables\Content;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 
 class TestMailable extends Mailable {
@@ -19,7 +20,13 @@ class TestMailable extends Mailable {
     public function build(): BatchMailable
     {
         return $this->from(new Address('from@example.com', 'From'))
-            ->replyTo('mateus@example.com', 'Mateus')
-            ->html("<html>Test</html>");
+            ->replyTo('mateus@example.com', 'Mateus');
+    }
+
+    public function content(): Content
+    {
+        return new Content(
+            htmlString: "<html>Test</html>",
+        );
     }
 }
