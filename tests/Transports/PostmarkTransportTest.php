@@ -5,7 +5,7 @@ namespace InteractionDesignFoundation\BatchMailer\Tests\Transports;
 use Illuminate\Support\Facades\App;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use InteractionDesignFoundation\BatchMailer\Attachment;
+use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\Tests\TestCase;
 use InteractionDesignFoundation\BatchMailer\Transports\PostmarkBatchTransport;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;

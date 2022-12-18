@@ -287,9 +287,7 @@ To get started, implement the `\Illuminate\Contracts\Mail\Attachable` interface 
  
 namespace App\Models;
  
-use Illuminate\Contracts\Mail\Attachable;
-use Illuminate\Database\Eloquent\Model;
-use InteractionDesignFoundation\BatchMailer\Attachment;
+use Illuminate\Contracts\Mail\Attachable;use Illuminate\Database\Eloquent\Model;use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
  
 class Photo extends Model implements Attachable
 {

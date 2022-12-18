@@ -3,10 +3,10 @@
 namespace InteractionDesignFoundation\BatchMailer\Tests;
 
 use Illuminate\Contracts\Mail\Attachable;
-use InteractionDesignFoundation\BatchMailer\Attachment;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 
 final class BatchMailerMessageTest extends TestCase

@@ -1,11 +1,13 @@
 <?php
 
-namespace InteractionDesignFoundation\BatchMailer;
+namespace InteractionDesignFoundation\BatchMailer\Mailables;
 
 use Closure;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Filesystem\Factory as FilesystemFactory;
 use Illuminate\Support\Traits\Macroable;
+use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
+use InteractionDesignFoundation\BatchMailer\Mailable;
 
 class Attachment
 {

@@ -3,16 +3,19 @@
 namespace InteractionDesignFoundation\BatchMailer;
 
 use Illuminate\Container\Container;
+use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Mail\Markdown;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
-use Illuminate\Contracts\Mail\Attachable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
+use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
+use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+use InteractionDesignFoundation\BatchMailer\Mailables\Headers;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\Assert as PHPUnit;
 
@@ -399,6 +402,18 @@ class Mailable implements BatchMailable
         $this->ensureHeadersAreHydrated();
     }
 
+    private function ensureContentIsHydrated(): void
+    {
+        if (! method_exists($this, 'content')) {
+            return;
+        }
+
+        $content = $this->content();
+        assert($content instanceof Content);
+
+
+    }
+
     private function ensureHeadersAreHydrated(): void
     {
         if (! method_exists($this, 'headers')) {
@@ -406,9 +421,18 @@ class Mailable implements BatchMailable
         }
 
         $headers = $this->headers();
+        assert($headers instanceof Headers);
 
         $this->withBatchMailerMessage(function (BatchMailerMessage $message) use ($headers) {
-            foreach ($headers as $name => $value) {
+            if ($headers->messageId){
+                $message->addCustomHeader('Message-Id', $headers->messageId);
+            }
+
+            if (count($headers->references) > 0) {
+                $message->addCustomHeader('References', $headers->referencesString());
+            }
+
+            foreach ($headers->text as $name => $value) {
                 $message->addCustomHeader($name, $value);
             }
         });
