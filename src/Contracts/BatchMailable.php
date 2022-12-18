@@ -2,9 +2,9 @@
 
 namespace InteractionDesignFoundation\BatchMailer\Contracts;
 
+use InteractionDesignFoundation\BatchMailer\Mailables\Address;
 use InteractionDesignFoundation\BatchMailer\Mailables\Content;
 use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 
 interface BatchMailable

@@ -4,12 +4,11 @@ namespace InteractionDesignFoundation\BatchMailer\Tests;
 
 use Illuminate\Contracts\Mail\Attachable;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\Mailables\Address;
 use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\Mailables\Content;
 use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 
 final class BatchMailerMessageTest extends TestCase
 {

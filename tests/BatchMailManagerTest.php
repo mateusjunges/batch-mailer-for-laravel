@@ -5,8 +5,8 @@ namespace InteractionDesignFoundation\BatchMailer\Tests;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\BatchMailManager;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
+use InteractionDesignFoundation\BatchMailer\Mailables\Address;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 
 final class BatchMailManagerTest extends TestCase
 {

@@ -4,7 +4,6 @@ namespace InteractionDesignFoundation\BatchMailer\Mailables;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 
 class Envelope
 {

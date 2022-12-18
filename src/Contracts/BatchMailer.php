@@ -2,15 +2,15 @@
 
 namespace InteractionDesignFoundation\BatchMailer\Contracts;
 
-use InteractionDesignFoundation\BatchMailer\SentMessage;
 use InteractionDesignFoundation\BatchMailer\PendingBatchMail;
+use InteractionDesignFoundation\BatchMailer\SentMessage;
 
 interface BatchMailer
 {
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address|string> $users */
+    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address|string> $users */
     public function to(array $users): PendingBatchMail;
 
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address|string> $users */
+    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address|string> $users */
     public function bcc(array $users): PendingBatchMail;
 
     /** @param array<string, mixed> $data */

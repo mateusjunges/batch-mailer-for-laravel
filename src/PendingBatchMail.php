@@ -10,13 +10,13 @@ final class PendingBatchMail
 {
     use Conditionable;
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $to*/
+    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $to*/
     protected array $to = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $cc*/
+    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $cc*/
     protected array $cc = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $bcc*/
+    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $bcc*/
     protected array $bcc = [];
 
     public function __construct(protected BatchMailer $mailer) {}
@@ -26,7 +26,7 @@ final class PendingBatchMail
         return $this->mailer->send($this->fill($mailable));
     }
 
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $users */
+    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $users */
     public function to(array $users): self
     {
         $this->to = $users;
@@ -34,7 +34,7 @@ final class PendingBatchMail
         return $this;
     }
 
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $users */
+    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $users */
     public function cc(array $users): self
     {
         $this->cc = $users;
@@ -42,7 +42,7 @@ final class PendingBatchMail
         return $this;
     }
 
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $users */
+    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $users */
     public function bcc(array $users): self
     {
         $this->bcc = $users;

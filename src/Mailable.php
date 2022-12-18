@@ -13,9 +13,9 @@ use Illuminate\Support\Traits\Conditionable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
+use InteractionDesignFoundation\BatchMailer\Mailables\Address;
 use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\Mailables\Headers;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\Assert as PHPUnit;
 
 abstract class Mailable implements BatchMailable
