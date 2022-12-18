@@ -2,6 +2,8 @@
 
 namespace InteractionDesignFoundation\BatchMailer\Contracts;
 
+use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 
@@ -32,4 +34,8 @@ interface BatchMailable
 
     /** Set the name of the mailer that should be used to send the message. */
     public function mailer(string $mailer): self;
+
+    public function envelope(): Envelope;
+
+    public function content(): Content;
 }
