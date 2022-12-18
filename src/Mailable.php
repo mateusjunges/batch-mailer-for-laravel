@@ -13,7 +13,6 @@ use Illuminate\Contracts\Mail\Attachable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
-use InteractionDesignFoundation\BatchMailer\Attachment;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\Assert as PHPUnit;
 
