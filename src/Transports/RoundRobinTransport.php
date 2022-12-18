@@ -7,7 +7,7 @@ use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 
-abstract class RoundRobinTransport implements BatchTransport, \Stringable
+abstract class RoundRobinTransport implements BatchTransport
 {
     /** @var \SplObjectStorage<BatchTransport, float> $deadTransports*/
     protected \SplObjectStorage $deadTransports;

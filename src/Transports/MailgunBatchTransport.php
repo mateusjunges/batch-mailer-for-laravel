@@ -11,7 +11,7 @@ use InteractionDesignFoundation\BatchMailer\SentMessage;
 use Mailgun\Mailgun;
 use Mailgun\Message\Exceptions\LimitExceeded;
 
-final class MailgunBatchTransport implements BatchTransport, \Stringable
+final class MailgunBatchTransport implements BatchTransport
 {
     private const MAX_RECIPIENTS = 500;
 

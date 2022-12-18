@@ -15,7 +15,7 @@ use InteractionDesignFoundation\Postmark\Api\Message\Requests\Message;
 use InteractionDesignFoundation\Postmark\Enums\TrackLinksEnum;
 use InteractionDesignFoundation\Postmark\Facades\Postmark;
 
-final class PostmarkBatchTransport implements BatchTransport, \Stringable
+final class PostmarkBatchTransport implements BatchTransport
 {
     private const MAX_RECIPIENTS = 500;
 
