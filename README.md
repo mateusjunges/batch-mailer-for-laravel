@@ -396,7 +396,9 @@ BatchMail::to([
 By default, this package will send email using the mailer configured as the `default` mailer in your application's `mail` configuration file. However, you may use the mailer method to send a message using a specific `mailer` configuration:
 
 ```php
-Mail::mailer('postmark')
+use InteractionDesignFoundation\BatchMailer\Facades\BatchMail;
+
+BatchMail::mailer('postmark')
     ->to($addresses)
     ->send(new OrderShipped($order));
 ```
