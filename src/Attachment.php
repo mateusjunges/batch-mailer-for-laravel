@@ -55,7 +55,7 @@ class Attachment
             )->disk($disk);
 
             $attachment
-                ->as($attachment->as ?? basename($path))
+                ->as($attachment->as ?? basename((string) $path))
                 ->withMime($attachment->mime ?? $storage->mimeType($path));
 
             return $dataStrategy(fn () => $storage->get($path), $attachment);

@@ -15,7 +15,7 @@ use InteractionDesignFoundation\Postmark\Api\Message\Requests\Message;
 use InteractionDesignFoundation\Postmark\Enums\TrackLinksEnum;
 use InteractionDesignFoundation\Postmark\Facades\Postmark;
 
-final class PostmarkBatchTransport implements BatchTransport
+final class PostmarkBatchTransport implements BatchTransport, \Stringable
 {
     private const MAX_RECIPIENTS = 500;
 
@@ -67,7 +67,7 @@ final class PostmarkBatchTransport implements BatchTransport
 
                 $message->addAttachment(PostmarkAttachment::fromFile(
                     $attachment['attachment'],
-                    $attachment['options']['as'] ?? basename($attachment['attachment']),
+                    $attachment['options']['as'] ?? basename((string) $attachment['attachment']),
                     $attachment['options']['mime'] ?? $this->guessMimeType($attachment['attachment'])
                 ));
             }
@@ -128,7 +128,7 @@ final class PostmarkBatchTransport implements BatchTransport
 
     private function guessMimeType(string $filePath): string
     {
-        $mime = mime_content_type($filePath) ? mime_content_type($filePath) : null;
+        $mime = mime_content_type($filePath) ?: null;
 
         return $mime ?? 'application/octet-stream';
     }

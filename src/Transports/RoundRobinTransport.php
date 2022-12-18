@@ -7,7 +7,7 @@ use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 
-abstract class RoundRobinTransport implements BatchTransport
+abstract class RoundRobinTransport implements BatchTransport, \Stringable
 {
     /** @var \SplObjectStorage<BatchTransport, float> $deadTransports*/
     protected \SplObjectStorage $deadTransports;
@@ -80,7 +80,7 @@ abstract class RoundRobinTransport implements BatchTransport
     {
         // the cursor initial value is randomized so that
         // when are not in a daemon, we are still rotating the transports
-        return mt_rand(0, \count($this->transports) - 1);
+        return random_int(0, count($this->transports) - 1);
     }
 
     public function getNameSymbol(): string
@@ -90,7 +90,7 @@ abstract class RoundRobinTransport implements BatchTransport
 
     private function moveCursor(int $cursor): int
     {
-        return ++$cursor >= \count($this->transports) ? 0 : $cursor;
+        return ++$cursor >= count($this->transports) ? 0 : $cursor;
     }
 
     public function __toString(): string

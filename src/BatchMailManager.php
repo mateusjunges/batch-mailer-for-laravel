@@ -59,7 +59,7 @@ final class BatchMailManager implements Factory
             return call_user_func($this->customCreators[$transport], $config);
         }
 
-        if (trim($transport ?? '') === '' || ! method_exists($this, $method = 'create'.ucfirst($transport).'Transport')) {
+        if (trim($transport ?? '') === '' || ! method_exists($this, $method = 'create'.ucfirst((string) $transport).'Transport')) {
             throw new \InvalidArgumentException("Unsupported batch mailer transport [$transport].");
         }
 
