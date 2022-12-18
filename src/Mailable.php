@@ -14,8 +14,6 @@ use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
 use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
-use InteractionDesignFoundation\BatchMailer\Mailables\Content;
-use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
 use InteractionDesignFoundation\BatchMailer\Mailables\Headers;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\Assert as PHPUnit;
@@ -436,8 +434,4 @@ abstract class Mailable implements BatchMailable
 
         return $this;
     }
-
-    abstract public function content(): Content;
-
-    abstract public function envelope(): Envelope;
 }
