@@ -58,7 +58,9 @@ class Envelope
      */
     public function __construct(Address|string $from = null, array $to = [], array $cc = [], array $bcc = [], array $replyTo = [], string $subject = null, array $tags = [], array $metadata = [])
     {
-        $this->from = $from;
+        if ($from !== null) {
+            $this->from = $from instanceof Address ? $from : new Address($from);
+        }
         $this->to = $this->normalizeAddresses($to);
         $this->cc = $this->normalizeAddresses($cc);
         $this->bcc = $this->normalizeAddresses($bcc);
