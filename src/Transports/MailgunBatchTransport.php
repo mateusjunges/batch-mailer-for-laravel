@@ -6,7 +6,7 @@ use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use Illuminate\Mail\Attachment;
+use InteractionDesignFoundation\BatchMailer\Attachment;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 use Mailgun\Mailgun;
 use Mailgun\Message\Exceptions\LimitExceeded;

@@ -13,7 +13,7 @@ use Illuminate\Contracts\Mail\Attachable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
-use Illuminate\Mail\Attachment;
+use InteractionDesignFoundation\BatchMailer\Attachment;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\Assert as PHPUnit;
 
@@ -53,10 +53,8 @@ class Mailable implements BatchMailable
     /** The view data for the message. */
     public array $viewData = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailable\Attachment>  */
+    /** @var array<int, Attachment>  */
     public array $attachments = [];
-
-    public array $rawAttachments = [];
 
     /** The tags for the message. */
     protected array $tags = [];

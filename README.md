@@ -289,7 +289,7 @@ namespace App\Models;
  
 use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Mail\Attachment;
+use InteractionDesignFoundation\BatchMailer\Attachment;
  
 class Photo extends Model implements Attachable
 {

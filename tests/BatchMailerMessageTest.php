@@ -3,7 +3,7 @@
 namespace InteractionDesignFoundation\BatchMailer\Tests;
 
 use Illuminate\Contracts\Mail\Attachable;
-use Illuminate\Mail\Attachment;
+use InteractionDesignFoundation\BatchMailer\Attachment;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Mailable;
