@@ -42,4 +42,39 @@ class EnvelopeTest extends TestCase
         $envelope->subject('Test Subject');
         $this->assertEquals('Test Subject', $envelope->subject);
     }
+
+    /** @test */
+    public function it_can_set_from_address(): void
+    {
+        $envelope = new Envelope();
+        $envelope->from('from@example.com');
+
+        $this->assertEquals('from@example.com', $envelope->from->email);
+        $this->assertNull($envelope->from->fullName);
+
+        $envelope = new Envelope();
+        $envelope->from(new Address('from@example.com'));
+
+        $this->assertEquals('from@example.com', $envelope->from->email);
+        $this->assertNull($envelope->from->fullName);
+    }
+
+    /** @test */
+    public function it_can_set_reply_to_address(): void
+    {
+        $envelope = new Envelope();
+        $envelope->replyTo('reply-to@example.com');
+
+        $this->assertEquals('reply-to@example.com', $envelope->replyTo[0]->email);
+    }
+
+    /** @test */
+    public function it_can_set_tags(): void
+    {
+        $envelope = new Envelope();
+        $envelope->tag('tag1');
+        $envelope->tag('tag2');
+
+        $this->assertEquals(['tag1', 'tag2'], $envelope->tags);
+    }
 }

@@ -136,6 +136,9 @@ public function build()
 Typically, you will want to pass some data to your view that you can utilize when rendering the email's HTML. There two ways you may make data available to your view. First, any public property defined on your mailable clas will automatically be made available to the view. So, for example, you may pass data into your mailable class' constructor and set that data to public properties defined on the class.
 
 ```php
+use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
+use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+
 class OrderShipped extends Mailable
 {
     use Queueable, SerializesModels;
@@ -144,7 +147,12 @@ class OrderShipped extends Mailable
         public \App\Models\Order $order
     ){}
  
-    public function build()
+    public function envelope(): Envelope
+    {
+        //
+    }
+    
+    public function content(): Content
     {
         //
     }
@@ -164,6 +172,8 @@ Once the data has been set to a public property, it will automatically be availa
 If you would like to customize the format of your email's data before it is sent to the template, you may manually pass your data to the view using the `with` parameter. Typically, you will still pass data via the mailable class' constructor; however, you should set this data to `protected` or `private` properties so the data is not automatically made available to the template:
 
 ```php
+use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+
 class OrderShipped extends Mailable
 {
     use Queueable, SerializesModels;
@@ -172,12 +182,14 @@ class OrderShipped extends Mailable
         protected Order $order
     ){}
 
-    public function build()
+    public function content(): Content
     {
-        return $this->with([
-            'orderName' => $this->order->name,
-            'orderPrice' => $this->order->price,
-        ]);
+        return new Content(
+            with: [
+                'orderName' => $this->order->name,
+                'orderPrice' => $this->order->price,
+            ]
+        );
     }
 }
 ```
