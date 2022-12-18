@@ -80,12 +80,15 @@ To configure who the email is going to be "from", you must use the `from` method
 
 ```php
 use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
 
 class ExampleBatchMail extends Mailable
 {
-    public function build()
+    public function envelope(): Envelope
     {
-        return $this->from('sender@example.com');
+        return new Envelope(
+            from: 'sender@example.com' 
+        );
     }
 }
 ```
@@ -321,6 +324,7 @@ Some third-party email providers such as Mailgun and Postmark support message "t
 
 ```php
 use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
 
 class OrderShipped extends Mailable
 {
@@ -330,10 +334,11 @@ class OrderShipped extends Mailable
         public \App\Models\Order $order
     ){}
  
-    public function build()
-    {
-        return $this->tag('example-tag')
-            ->metadata('key', 'value');
+    public function envelope() : Envelope{
+        return new Envelope(
+            tags: ['example-tag'],
+            metadata: ['example-key' => 'example-value'],
+        );
     }
 }
 ```
