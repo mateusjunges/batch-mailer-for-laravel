@@ -19,7 +19,7 @@ use InteractionDesignFoundation\BatchMailer\Mailables\Headers;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use PHPUnit\Framework\Assert as PHPUnit;
 
-class Mailable implements BatchMailable
+abstract class Mailable implements BatchMailable
 {
     use Conditionable;
 
@@ -271,42 +271,6 @@ class Mailable implements BatchMailable
         return $this;
     }
 
-    /** Set the markdown template for the message. */
-    public function markdown(string $view, array $data = []): BatchMailable
-    {
-        $this->markdown = $view;
-        $this->viewData = array_merge($this->viewData, $data);
-
-        return $this;
-    }
-
-    /** Set the view template for the message. */
-    public function view(string $view, array $data = []): BatchMailable
-    {
-        $this->view = $view;
-        $this->viewData = array_merge($this->viewData, $data);
-
-        return $this;
-    }
-
-    /** Set the rendered HTML content for the message. */
-    public function html(string $html, array $data = []): BatchMailable
-    {
-        $this->html = $html;
-        $this->viewData = array_merge($this->viewData, $data);
-
-        return $this;
-    }
-
-    /** Set the plain text view for the message. */
-    public function text(string $textView, array $data = []): BatchMailable
-    {
-        $this->textView = $textView;
-        $this->viewData = array_merge($this->viewData, $data);
-
-        return $this;
-    }
-
     /** Add a tag header to the message when supported by the underlying transport. */
     public function tag(string $tag): BatchMailable
     {
@@ -399,6 +363,7 @@ class Mailable implements BatchMailable
         }
 
         $this->ensureAttachmentsAreHydrated();
+        $this->ensureContentIsHydrated();
         $this->ensureHeadersAreHydrated();
     }
 
@@ -406,7 +371,15 @@ class Mailable implements BatchMailable
     {
         $content = $this->content();
 
+        $this->view = $content->view;
+        $this->textView = $content->text;
+        $this->markdown = $content->markdown;
 
+        if ($content->htmlString) {
+            $this->html = $content->htmlString;
+        }
+
+        $this->viewData = $content->with;
     }
 
     private function ensureHeadersAreHydrated(): void
