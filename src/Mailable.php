@@ -404,12 +404,7 @@ class Mailable implements BatchMailable
 
     private function ensureContentIsHydrated(): void
     {
-        if (! method_exists($this, 'content')) {
-            return;
-        }
-
         $content = $this->content();
-        assert($content instanceof Content);
 
 
     }
@@ -492,4 +487,6 @@ class Mailable implements BatchMailable
 
         return $this;
     }
+
+    abstract public function content(): Content;
 }
