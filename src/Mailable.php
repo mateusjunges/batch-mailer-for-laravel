@@ -349,12 +349,21 @@ abstract class Mailable implements BatchMailable
 
         $this->from = $envelope->from;
         $this->subject = $envelope->subject;
-        $this->to = $envelope->to;
-        $this->cc = $envelope->cc;
-        $this->bcc = $envelope->bcc;
-        $this->replyTo = $envelope->replyTo;
+        $this->to = $this->uniqueAddresses('to', $envelope->to);
+        $this->cc = $this->uniqueAddresses('cc', $envelope->cc);
+        $this->bcc = $this->uniqueAddresses('bcc', $envelope->bcc);
+        $this->replyTo = $this->uniqueAddresses('replyTo', $envelope->replyTo);
         $this->tags = $envelope->tags;
         $this->metadata = $envelope->metadata;
+    }
+
+    /** @param array<int, Address> $addresses */
+    private function uniqueAddresses(string $property, array $addresses): array
+    {
+        return collect($addresses)
+            ->merge(collect($this->{$property}))
+            ->unique(fn (Address $address) => $address->email)
+            ->all();
     }
 
     private function ensureHeadersAreHydrated(): void
