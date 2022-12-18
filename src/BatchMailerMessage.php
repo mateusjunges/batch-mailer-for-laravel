@@ -4,8 +4,8 @@ namespace InteractionDesignFoundation\BatchMailer;
 
 use Carbon\CarbonInterface;
 use Illuminate\Contracts\Mail\Attachable;
-use InteractionDesignFoundation\BatchMailer\Attachment;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
+use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 
 final class BatchMailerMessage
