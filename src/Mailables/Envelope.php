@@ -4,13 +4,15 @@ namespace InteractionDesignFoundation\BatchMailer\Mailables;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
+use InteractionDesignFoundation\BatchMailer\Concerns\NormalizeAddresses;
 
 class Envelope
 {
     use Conditionable;
+    use NormalizeAddresses;
 
     /** The address sending the message. */
-    public Address $from;
+    public ?Address $from;
 
     /**
      * The recipients of the message.
@@ -64,28 +66,6 @@ class Envelope
         $this->subject = $subject;
         $this->tags = $tags;
         $this->metadata = $metadata;
-    }
-
-    /** Normalize the given array of addresses. */
-    protected function normalizeAddresses(Address|string|array $addresses, string $name = null): array
-    {
-        $addresses = Arr::wrap($addresses);
-
-        if (Arr::isAssoc($addresses) && array_key_exists('email', $addresses)) {
-            return [new Address($addresses['email'], $addresses['name'] ?? $name ?? $addresses['email'])];
-        }
-
-        return collect($addresses)->map(function (Address|array|string $address) use ($name): Address {
-            if ($address instanceof Address) {
-                return $address;
-            }
-
-            if (is_string($address)) {
-                return new Address($address, $name ?? $address);
-            }
-
-            return new Address($address['email'], $address['name'] ?? $name ?? $address['email']);
-        })->all();
     }
 
     /** Specify who the message will be "from". */

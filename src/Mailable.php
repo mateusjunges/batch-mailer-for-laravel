@@ -5,11 +5,11 @@ namespace InteractionDesignFoundation\BatchMailer;
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Mail\Markdown;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
+use InteractionDesignFoundation\BatchMailer\Concerns\NormalizeAddresses;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
@@ -21,6 +21,7 @@ use PHPUnit\Framework\Assert as PHPUnit;
 abstract class Mailable implements BatchMailable
 {
     use Conditionable;
+    use NormalizeAddresses;
 
     public Address $from;
 
@@ -215,7 +216,7 @@ abstract class Mailable implements BatchMailable
 
     public function replyTo(Address|string $replyTo, string $name = null): BatchMailable
     {
-        $address = $this->getAddresses($replyTo, $name);
+        $address = $this->normalizeAddresses($replyTo, $name);
 
         $this->replyTo = array_merge($this->replyTo, $address);
 
@@ -224,21 +225,21 @@ abstract class Mailable implements BatchMailable
 
     public function cc(array $addresses): BatchMailable
     {
-        $this->cc = $this->getAddresses($addresses);
+        $this->cc = $this->normalizeAddresses($addresses);
 
         return $this;
     }
 
     public function bcc(array $addresses): BatchMailable
     {
-        $this->bcc = $this->getAddresses($addresses);
+        $this->bcc = $this->normalizeAddresses($addresses);
 
         return $this;
     }
 
     public function to(Address|array $addresses): BatchMailable
     {
-        $this->to = $this->getAddresses($addresses);
+        $this->to = $this->normalizeAddresses($addresses);
 
         return $this;
     }
@@ -249,27 +250,6 @@ abstract class Mailable implements BatchMailable
         $this->mailer = $mailer;
 
         return $this;
-    }
-
-    protected function getAddresses(Address|string|array $addresses, string $name = null): array
-    {
-        $addresses = Arr::wrap($addresses);
-
-        if (Arr::isAssoc($addresses) && array_key_exists('email', $addresses)) {
-            return [new Address($addresses['email'], $addresses['name'] ?? $name ?? $addresses['email'])];
-        }
-
-        return collect($addresses)->map(function (Address|array|string $address) use ($name): Address {
-            if ($address instanceof Address) {
-                return $address;
-            }
-
-            if (is_string($address)) {
-                return new Address($address, $name ?? $address);
-            }
-
-            return new Address($address['email'], $address['name'] ?? $name ?? $address['email']);
-        })->all();
     }
 
     public function hasTo(Address|array|string $address, string $name = null): bool
