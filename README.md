@@ -72,11 +72,13 @@ php artisan make:batch-mail ExampleBatchMail
 ```
 
 ## Writing Mailables
-Once you have generated a mailable class, open it up, so we can explore its contents. Mailable class configuration is done in several methods, including the `build` and `attachments` methods.
+Once you have generated a mailable class, open it up, so we can explore its contents. Mailable class configuration is done in several methods, including the `envelope`, `content` and `attachments` methods.
+
+The envelope method returns an `InteractionDesignFoundation\BatchMailer\Mailables\Envelope` object that defines the subject and, sometimes, the recipients of the message. The content method returns an `InteractionDesignFoundation\BatchMailer\Mailables\Content` object that defines the [Blade template](https://laravel.com/docs/9.x/blade) that will be used to generate the message content.
 
 ## Configuring the sender
 
-To configure who the email is going to be "from", you must use the `from` method, from the `Mailable` class:
+To configure who the email is going to be "from", you must use the `from` address, on your `Envelope` class:
 
 ```php
 use InteractionDesignFoundation\BatchMailer\Mailable;
@@ -87,10 +89,23 @@ class ExampleBatchMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from: 'sender@example.com' 
+            from: 'sender@example.com',
+            subject: 'Example Batch Mail', 
         );
     }
 }
+```
+
+If you would like, you may also specify a `replyTo` address:
+
+```php
+return new Envelope(
+    from: new Address('sender@example.com', 'Sender'),
+    replyTo: [
+        new Address('taylor@example.com', 'Taylor Otwell'),
+    ],
+    subject: 'Order Shipped',
+);
 ```
 
 > **Note:**
@@ -99,35 +114,44 @@ class ExampleBatchMail extends Mailable
 
 ## Configuring the view
 
-Within a mailable class, you may define the `view`, or which template should be used when rendering the email's content. Since each email typically uses a [Blade template](https://laravel.com/docs/9.x/blade) to render it's content, you have the full power and convenience of the Blade templating engine when building your emails HTML:
+Within a mailable class' content, you may define the `view`, or which template should be used when rendering the email's content. Since each email typically uses a [Blade template](https://laravel.com/docs/9.x/blade) to render it's content, you have the full power and convenience of the Blade templating engine when building your emails HTML:
 
 ```php
-public function build()
+public function content(): \InteractionDesignFoundation\BatchMailer\Mailables\Content
 {
-    return $this->from('sender@example.com')
-        ->view('emails.view.example');
+    return new \InteractionDesignFoundation\BatchMailer\Mailables\Content(
+        view: 'mail.batch.example',
+    );
 }
+
+public function envelope(): \InteractionDesignFoundation\BatchMailer\Mailables\Envelope
+{
+    return new \InteractionDesignFoundation\BatchMailer\Mailables\Envelope(
+        from: 'sender@example.com',
+    );
 ```
 
 ### Plain text emails
 If you would like to define a plain-text version of your email, you may specify the plain-text template when creating the message's content definition. Like the `view` parameter, the `text` parameter should be a template name which will be used to render the contents of the email. You are free to define both an HTML and plain-text version of your message.
 
 ```php
-public function build()
+public function content(): \InteractionDesignFoundation\BatchMailer\Mailables\Content
 {
-    return $this->from('sender@example.com')
-        ->view('emails.view.example')
-        ->text('emails.plain-text.example';
+    return new \InteractionDesignFoundation\BatchMailer\Mailables\Content(
+        view: 'mail.batch.example',
+        text: 'emails.plain-text.example',
+    );
 }
 ```
 For clarity, the `html` method may be used as an alias of the `view` method:
 
 ```php
-public function build()
+public function content(): \InteractionDesignFoundation\BatchMailer\Mailables\Content
 {
-    return $this->from('sender@example.com')
-        ->html('emails.view.example')
-        ->text('emails.plain-text.example';
+    return new \InteractionDesignFoundation\BatchMailer\Mailables\Content(
+        html: 'mail.batch.example',
+        text: 'emails.plain-text.example',
+    );
 }
 ```
 
@@ -169,7 +193,7 @@ Once the data has been set to a public property, it will automatically be availa
 
 ### Via the `with` parameter:
 
-If you would like to customize the format of your email's data before it is sent to the template, you may manually pass your data to the view using the `with` parameter. Typically, you will still pass data via the mailable class' constructor; however, you should set this data to `protected` or `private` properties so the data is not automatically made available to the template:
+If you would like to customize the format of your email's data before it is sent to the template, you may manually pass your data to the view using the `Content` definition `with` parameter. Typically, you will still pass data via the mailable class' constructor; however, you should set this data to `protected` or `private` properties so the data is not automatically made available to the template:
 
 ```php
 use InteractionDesignFoundation\BatchMailer\Mailables\Content;
@@ -211,7 +235,7 @@ use InteractionDesignFoundation\BatchMailer\Mailable\Attachment;
 /**
  * Get the attachments for the message.
  *
- * @return \Illuminate\Mail\Attachment[]
+ * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment[]
  */
 public function attachments()
 {
@@ -227,7 +251,7 @@ When attaching files to a message, you may also specify the display name and/or 
 /**
  * Get the attachments for the message.
  *
- * @return \Illuminate\Mail\Attachment[]
+ * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment[]
  */
 public function attachments()
 {
@@ -246,7 +270,7 @@ If you have stored a file in one of your [filesystem disks](https://laravel.com/
 /**
  * Get the attachments for the message.
  *
- * @return \Illuminate\Mail\Attachment[]
+ * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment[]
  */
 public function attachments()
 {
@@ -262,7 +286,7 @@ Of course, you may also specify the attachment's name and MIME type:
 /**
  * Get the attachments for the message.
  *
- * @return \Illuminate\Mail\Attachment[]
+ * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment[]
  */
 public function attachments()
 {
@@ -280,7 +304,7 @@ The `fromStorageDisk` method may be used if you need to specify a storage disk o
 /**
  * Get the attachments for the message.
  *
- * @return \Illuminate\Mail\Attachment[]
+ * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment[]
  */
 public function attachments()
 {
@@ -295,7 +319,7 @@ public function attachments()
 ## Attachable objects
 While attaching files to messages via simple string paths is often sufficient, in many cases the attachable entities within your application are represented by classes. For example, if your application is attaching a photo to a message, your application may also have a `Photo` model that represents that photo. When that is the case, wouldn't it be convenient to simply pass the `Photo` model to the `attach` method? Attachable objects allow you to do just that.
 
-To get started, implement the `\Illuminate\Contracts\Mail\Attachable` interface on the object that will be attachable to messages. This interface dictates that your class defines a toMailAttachment method that returns an `\Illuminate\Mail\Attachment` instance:
+To get started, implement the `\Illuminate\Contracts\Mail\Attachable` interface on the object that will be attachable to messages. This interface dictates that your class defines a toMailAttachment method that returns an `\InteractionDesignFoundation\BatchMailer\Mailables\Attachment` instance:
 
 ```php
 <?php
@@ -309,7 +333,7 @@ class Photo extends Model implements Attachable
     /**
      * Get the attachable representation of the model.
      *
-     * @return \Illuminate\Mail\Attachment
+     * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment
      */
     public function toMailAttachment()
     {
@@ -328,6 +352,31 @@ Once you have defined your attachable object, you may return an instance of that
 public function attachments()
 {
     return [$this->photo];
+}
+```
+
+## Headers
+Sometimes you may need to attach additional headers to the outgoing message. For instance, you may need to set a custom `Message-Id` or other arbitrary text headers.
+
+To accomplish this, define a headers method on your mailable. The headers method should return an `InteractionDesignFoundation\BatchMailer\Mailables\Headers` instance. This class accepts `messageId`, `references`, and `text` parameters. Of course, you may provide only the parameters you need for your particular message:
+
+```php
+use InteractionDesignFoundation\BatchMailer\Mailables\Headers;
+ 
+/**
+ * Get the message headers.
+ *
+ * @return \InteractionDesignFoundation\BatchMailer\Mailables\Headers
+ */
+public function headers()
+{
+    return new Headers(
+        messageId: 'custom-message-id@example.com',
+        references: ['previous-message@example.com'],
+        text: [
+            'X-Custom-Header' => 'Custom Value',
+        ],
+    );
 }
 ```
 
