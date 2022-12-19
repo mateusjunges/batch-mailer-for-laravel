@@ -7,7 +7,7 @@ use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 
-final class ArrayTransport implements BatchTransport, \Stringable
+final class ArrayTransport implements BatchTransport
 {
     /** @param \Illuminate\Support\Collection<int, ?SentMessage> $messages */
     private Collection $messages;

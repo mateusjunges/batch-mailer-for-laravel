@@ -2,11 +2,11 @@
 
 namespace InteractionDesignFoundation\BatchMailer\Transports;
 
-use InteractionDesignFoundation\BatchMailer\Attachment;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
+use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 use InteractionDesignFoundation\Postmark\Api\Message\Requests\Address;
 use InteractionDesignFoundation\Postmark\Api\Message\Requests\Attachment as PostmarkAttachment;
@@ -15,7 +15,7 @@ use InteractionDesignFoundation\Postmark\Api\Message\Requests\Message;
 use InteractionDesignFoundation\Postmark\Enums\TrackLinksEnum;
 use InteractionDesignFoundation\Postmark\Facades\Postmark;
 
-final class PostmarkBatchTransport implements BatchTransport, \Stringable
+final class PostmarkBatchTransport implements BatchTransport
 {
     private const MAX_RECIPIENTS = 500;
 

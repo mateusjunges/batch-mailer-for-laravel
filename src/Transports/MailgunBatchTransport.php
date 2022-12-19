@@ -6,12 +6,12 @@ use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
 use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use InteractionDesignFoundation\BatchMailer\Attachment;
+use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
 use Mailgun\Mailgun;
 use Mailgun\Message\Exceptions\LimitExceeded;
 
-final class MailgunBatchTransport implements BatchTransport, \Stringable
+final class MailgunBatchTransport implements BatchTransport
 {
     private const MAX_RECIPIENTS = 500;
 

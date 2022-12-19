@@ -4,18 +4,17 @@ namespace InteractionDesignFoundation\BatchMailer\Tests;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\View\Factory;
-use Illuminate\Support\Facades\App;
 use Illuminate\Support\HtmlString;
 use InteractionDesignFoundation\BatchMailer\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
 use InteractionDesignFoundation\BatchMailer\BatchMailManager;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use InteractionDesignFoundation\BatchMailer\SentMessage;
-use InteractionDesignFoundation\BatchMailer\Transports\FailoverTransport;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 use InteractionDesignFoundation\BatchMailer\Events\BatchMessageSent;
+use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
+use InteractionDesignFoundation\BatchMailer\Mailables\Address;
+use InteractionDesignFoundation\BatchMailer\SentMessage;
 use InteractionDesignFoundation\BatchMailer\Transports\ArrayTransport;
+use InteractionDesignFoundation\BatchMailer\Transports\FailoverTransport;
 use Mockery as m;
 
 final class BatchMailerTest extends TestCase

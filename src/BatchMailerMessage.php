@@ -4,22 +4,22 @@ namespace InteractionDesignFoundation\BatchMailer;
 
 use Carbon\CarbonInterface;
 use Illuminate\Contracts\Mail\Attachable;
-use InteractionDesignFoundation\BatchMailer\Attachment;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
+use InteractionDesignFoundation\BatchMailer\Mailables\Address;
+use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 
 final class BatchMailerMessage
 {
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $to*/
+    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $to*/
     private array $to = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $to*/
+    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $to*/
     private array $replyTo = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $cc*/
+    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $cc*/
     private array $cc = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $bcc*/
+    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $bcc*/
     private array $bcc = [];
 
     /** @var array<int, \Illuminate\Mail\Attachment> $attachments */
@@ -46,7 +46,7 @@ final class BatchMailerMessage
     private string $subject;
     private Address $from;
 
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> $to */
+    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $to */
     public function setTo(array $to): self
     {
         $this->to = $to;
@@ -254,13 +254,13 @@ final class BatchMailerMessage
         return $this->replyTo;
     }
 
-    /** @return array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> */
+    /** @return array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> */
     public function cc(): array
     {
         return $this->cc;
     }
 
-    /** @return array<int, \InteractionDesignFoundation\BatchMailer\ValueObjects\Address> */
+    /** @return array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> */
     public function bcc(): array
     {
         return $this->bcc;

@@ -3,9 +3,9 @@
 namespace InteractionDesignFoundation\BatchMailer\Tests;
 
 use InteractionDesignFoundation\BatchMailer\Facades\BatchMail;
+use InteractionDesignFoundation\BatchMailer\Mailables\Address;
 use InteractionDesignFoundation\BatchMailer\PendingBatchMail;
 use InteractionDesignFoundation\BatchMailer\SentMessage;
-use InteractionDesignFoundation\BatchMailer\ValueObjects\Address;
 
 final class BatchMailFacadeTest extends TestCase
 {
