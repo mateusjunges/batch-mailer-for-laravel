@@ -93,6 +93,12 @@ final class PostmarkBatchTransport implements BatchTransport
                 $message->setTrackLinks(TrackLinksEnum::NONE);
             }
 
+            if ($batchMailerMessage->shouldTrackOpenings()) {
+                $message->setOpenTracking(true);
+            } else {
+                $message->setOpenTracking(false);
+            }
+
             if ($batchMailerMessage->hasHeaders()) {
                 $message->setHeaders($this->preparePostmarkHeaders($batchMailerMessage->headers()));
             }

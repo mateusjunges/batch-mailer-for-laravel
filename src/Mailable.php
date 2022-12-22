@@ -333,7 +333,7 @@ abstract class Mailable implements BatchMailable
 
     private function setOpenTracking(BatchMailerMessage $message): self
     {
-        $message->trackOpenings( $this->shouldTrackOpenings());
+        $message->trackOpenings($this->shouldTrackOpenings());
 
         return $this;
     }
