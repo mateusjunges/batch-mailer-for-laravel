@@ -4,7 +4,7 @@
     "require": {
         "php": "^8.1",
         "mailgun/mailgun-php": "^3.5",
-        "interaction-design-foundation/laravel-postmark-api": "dev-main",
+        "interaction-design-foundation/laravel-postmark-api": "^v0.1.0",
         "ext-fileinfo": "*"
     },
     "require-dev": {
