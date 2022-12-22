@@ -35,6 +35,7 @@ final class MailgunBatchTransport implements BatchTransport
 
             $message->setFromAddress($batchMailerMessage->from()->email, ['full_name' => $batchMailerMessage->from()->fullName]);
             $message->setHtmlBody($batchMailerMessage->html());
+            $message->setSubject($batchMailerMessage->subject());
 
             if ($batchMailerMessage->hasText()) {
                 $message->setTextBody($batchMailerMessage->text());
