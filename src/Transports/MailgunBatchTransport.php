@@ -78,8 +78,6 @@ final class MailgunBatchTransport implements BatchTransport
             }
 
             foreach ($batchMailerMessage->attachments() as $attachment) {
-                assert($attachment instanceof Attachment);
-
                 $message->addAttachment($attachment['attachment'], $attachment['options']['as'] ?? null);
             }
 

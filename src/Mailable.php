@@ -59,6 +59,8 @@ abstract class Mailable implements BatchMailable
     /** @var array<int, Attachment>  */
     public array $attachments = [];
 
+    public array $rawAttachments = [];
+
     /** The tags for the message. */
     protected array $tags = [];
 

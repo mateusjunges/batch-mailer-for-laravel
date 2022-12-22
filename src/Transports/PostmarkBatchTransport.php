@@ -63,8 +63,6 @@ final class PostmarkBatchTransport implements BatchTransport
             }
 
             foreach ($batchMailerMessage->attachments() as $attachment) {
-                assert($attachment instanceof Attachment);
-
                 $message->addAttachment(PostmarkAttachment::fromFile(
                     $attachment['attachment'],
                     $attachment['options']['as'] ?? basename((string) $attachment['attachment']),

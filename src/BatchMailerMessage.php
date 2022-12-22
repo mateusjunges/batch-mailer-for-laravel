@@ -111,6 +111,14 @@ final class BatchMailerMessage
         return $this;
     }
 
+    public function attachData(string $data, string $name, array $options = []): self
+    {
+        return $this->attach($data, [
+            'as' => $name,
+            'mime' => $options['mime'] ?? null,
+        ]);
+    }
+
     public function addCampaignId(string $campaignId): self
     {
         $this->campaignIds[] = $campaignId;
