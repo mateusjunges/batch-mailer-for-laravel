@@ -34,8 +34,8 @@ final class PostmarkBatchTransport implements BatchTransport
 
         foreach ($batchMailerMessage->recipients() as $recipient) {
             $message = (new Message())
-                ->setHtmlBody($batchMailerMessage->html())
-                ->setTextBody($batchMailerMessage->text())
+                ->when($batchMailerMessage->html(), fn (Message $message) => $message->setHtmlBody($batchMailerMessage->html()))
+                ->when($batchMailerMessage->text(), fn (Message $message) => $message->setTextBody($batchMailerMessage->text()))
                 ->setFromAddress(new Address(
                     $batchMailerMessage->from()->email,
                     $batchMailerMessage->from()->fullName,

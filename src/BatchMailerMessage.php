@@ -289,7 +289,7 @@ final class BatchMailerMessage
         return $this->subject;
     }
 
-    public function messageStream(): string
+    public function messageStream(): ?string
     {
         return $this->messageStream;
     }
