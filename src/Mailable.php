@@ -13,6 +13,7 @@ use InteractionDesignFoundation\BatchMailer\Concerns\NormalizeAddresses;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
 use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
+use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
 use InteractionDesignFoundation\BatchMailer\Mailables\Address;
 use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\Mailables\Headers;
@@ -86,7 +87,9 @@ abstract class Mailable implements BatchMailable
                 ->buildSubject($message)
                 ->buildTags($message)
                 ->buildMetadata($message)
-                ->runCallbacks($message);
+                ->runCallbacks($message)
+                ->setLinkTracking($message)
+                ->setOpenTracking($message);
         });
     }
 
@@ -300,12 +303,39 @@ abstract class Mailable implements BatchMailable
         );
     }
 
+    /** Determine which types of messages should track links. */
+    public function shouldTrackLinks(): ClickTracking
+    {
+        return ClickTracking::NONE;
+    }
+
+    public function shouldTrackOpenings(): bool
+    {
+        return false;
+    }
+
     private function prepareMailableForDelivery(): void
     {
         $this->ensureEnvelopeIsHydrated();
         $this->ensureAttachmentsAreHydrated();
         $this->ensureContentIsHydrated();
         $this->ensureHeadersAreHydrated();
+    }
+
+    private function setLinkTracking(BatchMailerMessage $message): self
+    {
+        $linkTracking = $this->shouldTrackLinks();
+
+        $message->setLinkTracking($linkTracking);
+
+        return $this;
+    }
+
+    private function setOpenTracking(BatchMailerMessage $message): self
+    {
+        $message->trackOpenings( $this->shouldTrackOpenings());
+
+        return $this;
     }
 
     private function ensureContentIsHydrated(): void
