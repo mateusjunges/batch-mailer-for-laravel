@@ -18,7 +18,7 @@ class {{ class }} extends Mailable
     use Queueable, SerializesModels;
 
     /** Get the message envelope. */
-    public function envelope()
+    public function envelope(): Envelope
     {
         return new Envelope(
             subject: '{{ subject }}',
