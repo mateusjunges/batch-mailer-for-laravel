@@ -5,14 +5,16 @@ namespace InteractionDesignFoundation\BatchMailer\Providers;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
 use InteractionDesignFoundation\BatchMailer\BatchMailManager;
+use InteractionDesignFoundation\BatchMailer\Console\Commands\BatchMailMakeCommand;
 
 final class BatchMailerServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        $this->publishes([
-            __DIR__ . '/../../config/batch-mailer.php' => config_path('batch-mailer.php'),
-        ], 'batch-mailer-config');
+        if ($this->app->runningInConsole()) {
+            $this->registerCommands();
+            $this->publishesConfiguration();
+        }
     }
 
     public function register(): void
@@ -47,5 +49,12 @@ final class BatchMailerServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__."/../../config/batch-mailer.php" => config_path('batch-mailer.php')
         ], 'batch-mailer-config');
+    }
+
+    private function registerCommands(): void
+    {
+        $this->commands([
+            BatchMailMakeCommand::class
+        ]);
     }
 }
