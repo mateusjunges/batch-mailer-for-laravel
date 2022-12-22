@@ -482,7 +482,12 @@ To send a message, use the `to` method on the `BatchMail` facade. The `to` metho
  
 namespace App\Http\Controllers;
  
-use App\Http\Controllers\Controller;use App\Mail\OrderShipped;use App\Models\Order;use Illuminate\Http\Request;use InteractionDesignFoundation\BatchMailer\Facades\BatchMail;use InteractionDesignFoundation\BatchMailer\Mailables\Address;
+use App\Http\Controllers\Controller;
+use App\Mail\OrderShipped;
+use App\Models\Order;
+use Illuminate\Http\Request;
+use InteractionDesignFoundation\BatchMailer\Facades\BatchMail;
+use InteractionDesignFoundation\BatchMailer\Mailables\Address;
  
 class OrderShipmentController extends Controller
 {
