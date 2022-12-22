@@ -512,7 +512,7 @@ class OrderShipmentController extends Controller
 }
 ```
 
-You are not limited to just specifying the "to" recipients when sending a message. You are free to set "to", "cc", and "bcc" recipients by chaining their respective methods together:
+You are not limited to just specifying the `to` recipients when sending a message. You are free to set `to`, `cc`, and `bcc` recipients by chaining their respective methods together:
 
 ```php
 BatchMail::to([
