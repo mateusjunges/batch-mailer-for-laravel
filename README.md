@@ -176,16 +176,19 @@ The default value for this method is `false`, which means no emails will be trac
 Within a mailable class' content, you may define the `view`, or which template should be used when rendering the email's content. Since each email typically uses a [Blade template](https://laravel.com/docs/9.x/blade) to render it's content, you have the full power and convenience of the Blade templating engine when building your emails HTML:
 
 ```php
-public function content(): \InteractionDesignFoundation\BatchMailer\Mailables\Content
+use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
+
+public function content(): Content
 {
-    return new \InteractionDesignFoundation\BatchMailer\Mailables\Content(
+    return new Content(
         view: 'mail.batch.example',
     );
 }
 
-public function envelope(): \InteractionDesignFoundation\BatchMailer\Mailables\Envelope
+public function envelope(): Envelope
 {
-    return new \InteractionDesignFoundation\BatchMailer\Mailables\Envelope(
+    return new Envelope(
         from: 'sender@example.com',
     );
 ```
@@ -194,9 +197,11 @@ public function envelope(): \InteractionDesignFoundation\BatchMailer\Mailables\E
 If you would like to define a plain-text version of your email, you may specify the plain-text template when creating the message's content definition. Like the `view` parameter, the `text` parameter should be a template name which will be used to render the contents of the email. You are free to define both an HTML and plain-text version of your message.
 
 ```php
-public function content(): \InteractionDesignFoundation\BatchMailer\Mailables\Content
+use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+
+public function content(): Content
 {
-    return new \InteractionDesignFoundation\BatchMailer\Mailables\Content(
+    return new Content(
         view: 'mail.batch.example',
         text: 'emails.plain-text.example',
     );
@@ -205,9 +210,11 @@ public function content(): \InteractionDesignFoundation\BatchMailer\Mailables\Co
 For clarity, the `html` method may be used as an alias of the `view` method:
 
 ```php
-public function content(): \InteractionDesignFoundation\BatchMailer\Mailables\Content
+use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+
+public function content(): Content
 {
-    return new \InteractionDesignFoundation\BatchMailer\Mailables\Content(
+    return new Content(
         html: 'mail.batch.example',
         text: 'emails.plain-text.example',
     );
