@@ -38,6 +38,7 @@ After configuring your application's default batch mailer, verify that your `con
 
 ```php
 'postmark' => [
+    'base_url' => 'https://api.postmarkapp.com',
     'token' => env('POSTMARK_TOKEN'),
 ],
 ```
@@ -111,6 +112,37 @@ return new Envelope(
 > **Note:**
 > Add global from address
 
+## Click tracking
+If you would like to enable click tracking for your batch mail, you may use the `shouldTrackLinks` method on the `Mailable` class:
+
+```php
+use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
+use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
+
+class ExampleBatchMail extends Mailable
+{
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            from: 'sender@example.com',
+            subject: 'Example Batch Mail', 
+        );
+    }
+    
+    public function shouldTrackLinks(): ClickTracking
+    {
+        return ClickTracking::HTML_AND_TEXT;
+    }
+}
+```
+
+You can choose between the following options:
+
+- `NONE`: No links will be replaced or tracked. This is the default setting for all messages;
+- `HTML_AND_TEXT`: Links will be replaced in both HTML and Text bodies;
+- `HTML_ONLY`: Links will be replaced in HTML bodies only;
+- `TEXT_ONLY`: Links will be replaced in Text bodies only.
 
 ## Configuring the view
 
