@@ -144,6 +144,33 @@ You can choose between the following options:
 - `HTML_ONLY`: Links will be replaced in HTML bodies only;
 - `TEXT_ONLY`: Links will be replaced in Text bodies only.
 
+## Tracking openings
+Some email providers can keep track of every time a recipient opens your messages.
+
+If you would like to track openings for your batch emails, you may use the `shouldTrackOpenings` method on the `Mailable` class:
+
+```php
+use InteractionDesignFoundation\BatchMailer\Mailable;
+use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
+use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
+
+class ExampleBatchMail extends Mailable
+{
+    public function envelope(): Envelope
+    {
+        return new Envelope(
+            from: 'sender@example.com',
+            subject: 'Example Batch Mail', 
+        );
+    }
+    
+    public function shouldTrackOpenings(): bool
+    {
+        return false;
+    }
+```
+The default value for this method is `false`, which means no emails will be tracked.
+
 ## Configuring the view
 
 Within a mailable class' content, you may define the `view`, or which template should be used when rendering the email's content. Since each email typically uses a [Blade template](https://laravel.com/docs/9.x/blade) to render it's content, you have the full power and convenience of the Blade templating engine when building your emails HTML:
