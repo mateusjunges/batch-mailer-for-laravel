@@ -10,7 +10,9 @@ final class BatchMailerServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-
+        $this->publishes([
+            __DIR__ . '/../../config/batch-mailer.php' => config_path('batch-mailer.php'),
+        ], 'batch-mailer-config');
     }
 
     public function register(): void
