@@ -5,6 +5,7 @@ namespace InteractionDesignFoundation\BatchMailer;
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\Factory;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable as MailableContract;
 use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer as BatchMailerContract;
@@ -115,7 +116,7 @@ final class BatchMailer implements BatchMailerContract
         try {
             return $this->transport->send($message);
         } finally {
-            //
+            Storage::disk('local')->deleteDirectory('batch-mailer-temp');
         }
     }
 
