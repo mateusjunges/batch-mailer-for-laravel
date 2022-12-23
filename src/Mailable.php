@@ -18,6 +18,7 @@ use InteractionDesignFoundation\BatchMailer\Mailables\Address;
 use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
 use InteractionDesignFoundation\BatchMailer\Mailables\Headers;
 use PHPUnit\Framework\Assert as PHPUnit;
+use Symfony\Component\Mime\Part\DataPart;
 
 abstract class Mailable implements BatchMailable
 {
@@ -59,6 +60,7 @@ abstract class Mailable implements BatchMailable
     /** @var array<int, Attachment>  */
     public array $attachments = [];
 
+    /** @var array<array-key, DataPart> $rawAttachments  */
     public array $rawAttachments = [];
 
     /** The tags for the message. */
@@ -449,8 +451,7 @@ abstract class Mailable implements BatchMailable
     public function attachData(string $data, string $name, array $options = []): self
     {
         $this->rawAttachments = collect($this->rawAttachments)
-            ->push(compact('data', 'name', 'options'))
-            ->unique(fn ($file) => $file['name'].$file['data'])
+            ->push(new DataPart($data, $name, $options['mime'] ?? null))
             ->all();
 
         return $this;

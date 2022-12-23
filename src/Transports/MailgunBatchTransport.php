@@ -77,7 +77,7 @@ final class MailgunBatchTransport implements BatchTransport
                 $message->addCustomHeader($headerName, $headerData);
             }
 
-            foreach ($batchMailerMessage->attachments() as $attachment) {
+            foreach ($batchMailerMessage->getPreparedAttachments() as $attachment) {
                 $message->addAttachment($attachment['attachment'], $attachment['options']['as'] ?? null);
             }
 

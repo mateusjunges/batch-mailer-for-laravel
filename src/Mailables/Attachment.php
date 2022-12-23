@@ -94,16 +94,4 @@ class Attachment
             fn ($data) => $mail->attachData($data(), $this->as, ['mime' => $this->mime])
         );
     }
-
-    /** Determine if the given attachment is equivalent to this attachment. */
-    public function isEquivalent(Attachment $attachment): bool
-    {
-        return $this->attachWith(
-                fn ($path) => [$path, ['as' => $this->as, 'mime' => $this->mime]],
-                fn ($data) => [$data(), ['as' => $this->as, 'mime' => $this->mime]],
-            ) === $attachment->attachWith(
-                fn ($path) => [$path, ['as' => $attachment->as, 'mime' => $attachment->mime]],
-                fn ($data) => [$data(), ['as' => $attachment->as, 'mime' => $attachment->mime]],
-            );
-    }
 }

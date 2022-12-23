@@ -4,9 +4,11 @@ namespace InteractionDesignFoundation\BatchMailer;
 
 use Carbon\CarbonInterface;
 use Illuminate\Contracts\Mail\Attachable;
+use Illuminate\Support\Facades\Storage;
 use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
 use InteractionDesignFoundation\BatchMailer\Mailables\Address;
 use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
+use Symfony\Component\Mime\Part\DataPart;
 
 final class BatchMailerMessage
 {
@@ -24,6 +26,9 @@ final class BatchMailerMessage
 
     /** @var array<int, \Illuminate\Mail\Attachment> $attachments */
     private array $attachments = [];
+
+    /** @var array<array-key, DataPart> $rawAttachments  */
+    private array $rawAttachments = [];
 
     /** @var array<int, string> $campaignIds */
     private array $campaignIds = [];
@@ -113,10 +118,9 @@ final class BatchMailerMessage
 
     public function attachData(string $data, string $name, array $options = []): self
     {
-        return $this->attach($data, [
-            'as' => $name,
-            'mime' => $options['mime'] ?? null,
-        ]);
+        $this->rawAttachments[] = new DataPart($data, $name, $options['mime'] ?? null);
+
+        return $this;
     }
 
     public function addCampaignId(string $campaignId): self
@@ -283,7 +287,39 @@ final class BatchMailerMessage
     /** @return array<int, \Illuminate\Mail\Attachment> */
     public function attachments(): array
     {
-        return $this->attachments;
+        return array_merge($this->attachments, $this->rawAttachments);
+    }
+
+    public function getPreparedAttachments(): array
+    {
+        return $this->prepareAttachments();
+    }
+
+    private function prepareAttachments(): array
+    {
+        return collect([...$this->attachments, ...$this->rawAttachments])
+            ->map(static function (array|DataPart $attachment) {
+                if (is_array($attachment)) {
+                    return $attachment;
+                }
+
+                $filename = sprintf(
+                    "%s/%s.%s",
+                    config('batch-mailer.attachments_temp_path'),
+                    time(),
+                    $attachment->getMediaSubtype()
+                );
+
+                Storage::disk('local')->put($filename, $attachment->getBody());
+
+                return [
+                    'attachment' =>  storage_path("app/$filename"),
+                    'options' => [
+                        'mime' => $attachment->getMediaType(),
+                        'as' => $attachment->getFilename(),
+                    ],
+                ];
+            })->all();
     }
 
     /** @return array<int, string> */
