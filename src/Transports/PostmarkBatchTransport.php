@@ -62,7 +62,7 @@ final class PostmarkBatchTransport implements BatchTransport
                 $message->addBcc(new Address($bcc->email, $bcc->getFullName()));
             }
 
-            foreach ($batchMailerMessage->attachments() as $attachment) {
+            foreach ($batchMailerMessage->getPreparedAttachments() as $attachment) {
                 $message->addAttachment(PostmarkAttachment::fromFile(
                     $attachment['attachment'],
                     $attachment['options']['as'] ?? basename((string) $attachment['attachment']),
