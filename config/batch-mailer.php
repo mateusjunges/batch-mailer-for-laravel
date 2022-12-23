@@ -14,6 +14,18 @@ return [
     'default' => env('BATCH_MAILER', 'failover'),
 
     /*
+     | ---------------------------------------------------------------------
+     | Attachment configuration
+     | ---------------------------------------------------------------------
+     |
+     | This option controls the default attachment configuration that is used to attach files from Storage.
+     | The default path used is "batch-mailer-temp", on your local disk. Please note that this directory will
+     | be cleared every time you send a batch mail, so make sure to change it if you are already using this path
+     | for something else in your application.
+     */
+    'attachments_temp_path' => env('BATCH_MAILER_ATTACHMENTS_TEMP_PATH', 'batch-mailer-temp'),
+
+    /*
     |--------------------------------------------------------------------------
     | Mailer Configurations
     |--------------------------------------------------------------------------

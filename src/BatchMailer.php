@@ -116,7 +116,9 @@ final class BatchMailer implements BatchMailerContract
         try {
             return $this->transport->send($message);
         } finally {
-            Storage::disk('local')->deleteDirectory('batch-mailer-temp');
+            Storage::disk('local')->deleteDirectory(
+                config('batch-mailer.attachments_temp_path')
+            );
         }
     }
 

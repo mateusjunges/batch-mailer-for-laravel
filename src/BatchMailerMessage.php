@@ -303,7 +303,12 @@ final class BatchMailerMessage
                     return $attachment;
                 }
 
-                $filename = sprintf("batch-mailer-temp/%s.%s", time(), $attachment->getMediaSubtype());
+                $filename = sprintf(
+                    "%s/%s.%s",
+                    config('batch-mailer.attachments_temp_path'),
+                    time(),
+                    $attachment->getMediaSubtype()
+                );
 
                 Storage::disk('local')->put($filename, $attachment->getBody());
 
