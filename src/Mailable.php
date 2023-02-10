@@ -289,7 +289,7 @@ abstract class Mailable implements BatchMailable
         });
     }
 
-    public function assertHasTo(Address|array|string $address, ?string $name = null)
+    public function assertHasTo(Address|array|string $address, ?string $name = null): void
     {
         $recipient = $address;
 

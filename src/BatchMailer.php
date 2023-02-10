@@ -104,7 +104,7 @@ final class BatchMailer implements BatchMailerContract
         return $sentMessage;
     }
 
-    private function dispatchSentEvent(SentMessage $message, array $data = [])
+    private function dispatchSentEvent(SentMessage $message, array $data = []): void
     {
         $this->events?->dispatch(
             new BatchMessageSent($message, $data)

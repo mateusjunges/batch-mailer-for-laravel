@@ -89,15 +89,15 @@ final class BatchMailManager implements Factory
         $transports = [];
 
         foreach ($config['mailers'] as $name) {
-            $config = $this->getConfig($name);
+            $mailerConfig = $this->getConfig($name);
 
-            if ($config === null) {
+            if ($mailerConfig === null) {
                 throw new \InvalidArgumentException("Mailer [$name] is not defined.");
             }
 
             $transports[] = $this->app['config']['batch-mailer.driver']
-                ? $this->createBatchTransport(array_merge($config, ['transport' => $name]))
-                : $this->createBatchTransport($config);
+                ? $this->createBatchTransport(array_merge($mailerConfig, ['transport' => $name]))
+                : $this->createBatchTransport($mailerConfig);
         }
 
         return new FailoverTransport($transports);
