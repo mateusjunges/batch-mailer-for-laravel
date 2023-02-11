@@ -2,13 +2,13 @@
     "name": "interaction-design-foundation/laravel-batch-mailer",
     "type": "library",
     "require": {
-        "php": "^8.1",
+        "php": "^8.1|^8.2",
         "mailgun/mailgun-php": "^3.5",
         "interaction-design-foundation/laravel-postmark-api": "^v0.1.0",
         "ext-fileinfo": "*"
     },
     "require-dev": {
-        "orchestra/testbench": "^7.10",
+        "orchestra/testbench": "^7.10|^8.0",
         "phpunit/phpunit": "^9.5"
     },
     "license": "MIT",
@@ -39,6 +39,11 @@
             "providers": [
                 "InteractionDesignFoundation\\BatchMailer\\Providers\\BatchMailerServiceProvider"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
         }
     }
 }
