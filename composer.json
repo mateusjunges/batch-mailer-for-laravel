@@ -1,5 +1,5 @@
 {
-    "name": "mateusjunges/laravel-batch-mailer",
+    "name": "mateusjunges/batch-mailer-for-laravel",
     "type": "library",
     "require": {
         "php": "^8.2",
