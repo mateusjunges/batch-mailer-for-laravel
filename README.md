@@ -1,5 +1,7 @@
 # Laravel batch mailer 
 
+[![Continuous Integration](https://github.com/mateusjunges/batch-mailer-for-laravel/actions/workflows/run-tests.yml/badge.svg)](https://github.com/mateusjunges/batch-mailer-for-laravel/actions/workflows/run-tests.yml)
+
 A batch mailer driver for laravel with built-in support for failover configuration.
 
 ![](art/readme-banner.png)
