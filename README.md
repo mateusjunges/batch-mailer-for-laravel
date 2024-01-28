@@ -8,7 +8,7 @@ A batch mailer driver for laravel with built-in support for failover configurati
 You can require this package using composer:
 
 ```text
-composer require interaction-design-foundation/laravel-batch-mailer
+composer require mateusjunges/laravel-batch-mailer
 ```
 
 Then, you can publish the configuration file using the command below:
