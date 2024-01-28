@@ -1,6 +1,6 @@
 <?php
 
-namespace InteractionDesignFoundation\BatchMailer\Enums;
+namespace Junges\BatchMailer\Enums;
 
 enum ClickTracking: int
 {

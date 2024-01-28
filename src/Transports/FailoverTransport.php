@@ -1,8 +1,8 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Transports;
+namespace Junges\BatchMailer\Transports;
 
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
+use Junges\BatchMailer\Contracts\BatchTransport;
 
 final class FailoverTransport extends RoundRobinTransport
 {

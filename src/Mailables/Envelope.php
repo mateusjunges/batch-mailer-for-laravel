@@ -1,10 +1,10 @@
 <?php
 
-namespace InteractionDesignFoundation\BatchMailer\Mailables;
+namespace Junges\BatchMailer\Mailables;
 
 use Illuminate\Support\Arr;
 use Illuminate\Support\Traits\Conditionable;
-use InteractionDesignFoundation\BatchMailer\Concerns\NormalizeAddresses;
+use Junges\BatchMailer\Concerns\NormalizeAddresses;
 
 class Envelope
 {

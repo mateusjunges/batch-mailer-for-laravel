@@ -1,6 +1,6 @@
 <?php
 
-namespace InteractionDesignFoundation\BatchMailer\Mailables;
+namespace Junges\BatchMailer\Mailables;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;

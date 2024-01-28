@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer;
+namespace Junges\BatchMailer;
 
 use Illuminate\Container\Container;
 use Illuminate\Contracts\Mail\Attachable;
@@ -9,14 +9,14 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
 use Illuminate\Support\Traits\Conditionable;
-use InteractionDesignFoundation\BatchMailer\Concerns\NormalizeAddresses;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
-use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
-use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
-use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
-use InteractionDesignFoundation\BatchMailer\Mailables\Headers;
+use Junges\BatchMailer\Concerns\NormalizeAddresses;
+use Junges\BatchMailer\Contracts\BatchMailable;
+use Junges\BatchMailer\Contracts\BatchMailer;
+use Junges\BatchMailer\Contracts\Factory;
+use Junges\BatchMailer\Enums\ClickTracking;
+use Junges\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\Mailables\Attachment;
+use Junges\BatchMailer\Mailables\Headers;
 use PHPUnit\Framework\Assert as PHPUnit;
 use Symfony\Component\Mime\Part\DataPart;
 

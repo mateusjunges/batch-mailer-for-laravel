@@ -1,6 +1,6 @@
 <?php
 
-namespace InteractionDesignFoundation\BatchMailer\Mailables;
+namespace Junges\BatchMailer\Mailables;
 
 class Content
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Mailables;
+namespace Junges\BatchMailer\Mailables;
 
 final class Address
 {

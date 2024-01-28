@@ -1,20 +1,20 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Tests;
+namespace Junges\BatchMailer\Tests;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\HtmlString;
-use InteractionDesignFoundation\BatchMailer\BatchMailer;
-use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\BatchMailManager;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
-use InteractionDesignFoundation\BatchMailer\Events\BatchMessageSent;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
-use InteractionDesignFoundation\BatchMailer\SentMessage;
-use InteractionDesignFoundation\BatchMailer\Transports\ArrayTransport;
-use InteractionDesignFoundation\BatchMailer\Transports\FailoverTransport;
+use Junges\BatchMailer\BatchMailer;
+use Junges\BatchMailer\BatchMailerMessage;
+use Junges\BatchMailer\BatchMailManager;
+use Junges\BatchMailer\Contracts\BatchTransport;
+use Junges\BatchMailer\Events\BatchMessageSent;
+use Junges\BatchMailer\Exceptions\TransportException;
+use Junges\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\SentMessage;
+use Junges\BatchMailer\Transports\ArrayTransport;
+use Junges\BatchMailer\Transports\FailoverTransport;
 use Mockery as m;
 
 final class BatchMailerTest extends TestCase

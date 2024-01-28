@@ -1,14 +1,14 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Tests\Transports;
+namespace Junges\BatchMailer\Tests\Transports;
 
 use Illuminate\Support\Facades\App;
-use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use InteractionDesignFoundation\BatchMailer\Tests\TestCase;
-use InteractionDesignFoundation\BatchMailer\Transports\FailoverTransport;
-use InteractionDesignFoundation\BatchMailer\Transports\RoundRobinTransport;
+use Junges\BatchMailer\BatchMailerMessage;
+use Junges\BatchMailer\Contracts\BatchTransport;
+use Junges\BatchMailer\Exceptions\TransportException;
+use Junges\BatchMailer\Tests\TestCase;
+use Junges\BatchMailer\Transports\FailoverTransport;
+use Junges\BatchMailer\Transports\RoundRobinTransport;
 
 final class FailoverTransportTest extends TestCase
 {
@@ -127,9 +127,7 @@ final class FailoverTransportTest extends TestCase
         ]);
     }
 
-    /**
-     * @throws \ReflectionException
-     */
+    /** @throws \ReflectionException */
     private function assertTransports(RoundRobinTransport $transport, int $cursor, array $deadTransports): int
     {
         $property = new \ReflectionProperty($transport, 'cursor');

@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Providers;
+namespace Junges\BatchMailer\Providers;
 
 use Illuminate\Foundation\Application;
 use Illuminate\Support\ServiceProvider;
-use InteractionDesignFoundation\BatchMailer\BatchMailManager;
-use InteractionDesignFoundation\BatchMailer\Console\Commands\BatchMailMakeCommand;
+use Junges\BatchMailer\BatchMailManager;
+use Junges\BatchMailer\Console\Commands\BatchMailMakeCommand;
 
 final class BatchMailerServiceProvider extends ServiceProvider
 {

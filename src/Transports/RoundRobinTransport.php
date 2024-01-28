@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Transports;
+namespace Junges\BatchMailer\Transports;
 
-use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use InteractionDesignFoundation\BatchMailer\SentMessage;
+use Junges\BatchMailer\BatchMailerMessage;
+use Junges\BatchMailer\Contracts\BatchTransport;
+use Junges\BatchMailer\Exceptions\TransportException;
+use Junges\BatchMailer\SentMessage;
 
 abstract class RoundRobinTransport implements BatchTransport
 {

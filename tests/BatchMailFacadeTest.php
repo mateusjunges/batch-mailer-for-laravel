@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Tests;
+namespace Junges\BatchMailer\Tests;
 
-use InteractionDesignFoundation\BatchMailer\Facades\BatchMail;
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
-use InteractionDesignFoundation\BatchMailer\PendingBatchMail;
-use InteractionDesignFoundation\BatchMailer\SentMessage;
+use Junges\BatchMailer\Facades\BatchMail;
+use Junges\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\PendingBatchMail;
+use Junges\BatchMailer\SentMessage;
 
 final class BatchMailFacadeTest extends TestCase
 {

@@ -1,22 +1,22 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer;
+namespace Junges\BatchMailer;
 
 use Illuminate\Support\Traits\Conditionable;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer;
+use Junges\BatchMailer\Contracts\BatchMailable;
+use Junges\BatchMailer\Contracts\BatchMailer;
 
 final class PendingBatchMail
 {
     use Conditionable;
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $to*/
+    /** @var array<int, \Junges\BatchMailer\Mailables\Address> $to*/
     protected array $to = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $cc*/
+    /** @var array<int, \Junges\BatchMailer\Mailables\Address> $cc*/
     protected array $cc = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $bcc*/
+    /** @var array<int, \Junges\BatchMailer\Mailables\Address> $bcc*/
     protected array $bcc = [];
 
     public function __construct(protected BatchMailer $mailer) {}
@@ -26,7 +26,7 @@ final class PendingBatchMail
         return $this->mailer->send($this->fill($mailable));
     }
 
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $users */
+    /** @param array<int, \Junges\BatchMailer\Mailables\Address> $users */
     public function to(array $users): self
     {
         $this->to = $users;
@@ -34,7 +34,7 @@ final class PendingBatchMail
         return $this;
     }
 
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $users */
+    /** @param array<int, \Junges\BatchMailer\Mailables\Address> $users */
     public function cc(array $users): self
     {
         $this->cc = $users;
@@ -42,7 +42,7 @@ final class PendingBatchMail
         return $this;
     }
 
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $users */
+    /** @param array<int, \Junges\BatchMailer\Mailables\Address> $users */
     public function bcc(array $users): self
     {
         $this->bcc = $users;

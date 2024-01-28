@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Tests;
+namespace Junges\BatchMailer\Tests;
 
-use InteractionDesignFoundation\BatchMailer\Mailable;
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
-use InteractionDesignFoundation\BatchMailer\Mailables\Content;
-use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
+use Junges\BatchMailer\Mailable;
+use Junges\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\Mailables\Content;
+use Junges\BatchMailer\Mailables\Envelope;
 use PHPUnit\Framework\AssertionFailedError;
 
 final class MailableTest extends TestCase

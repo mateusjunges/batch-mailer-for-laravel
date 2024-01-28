@@ -1,12 +1,12 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Tests;
+namespace Junges\BatchMailer\Tests;
 
-use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\BatchMailManager;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
-use InteractionDesignFoundation\BatchMailer\SentMessage;
+use Junges\BatchMailer\BatchMailerMessage;
+use Junges\BatchMailer\BatchMailManager;
+use Junges\BatchMailer\Contracts\BatchTransport;
+use Junges\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\SentMessage;
 
 final class BatchMailManagerTest extends TestCase
 {

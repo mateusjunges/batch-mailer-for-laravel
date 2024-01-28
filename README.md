@@ -75,15 +75,15 @@ php artisan make:batch-mail ExampleBatchMail
 ## Writing Mailables
 Once you have generated a mailable class, open it up, so we can explore its contents. Mailable class configuration is done in several methods, including the `envelope`, `content` and `attachments` methods.
 
-The envelope method returns an `InteractionDesignFoundation\BatchMailer\Mailables\Envelope` object that defines the subject and, sometimes, the recipients of the message. The content method returns an `InteractionDesignFoundation\BatchMailer\Mailables\Content` object that defines the [Blade template](https://laravel.com/docs/9.x/blade) that will be used to generate the message content.
+The envelope method returns an `Junges\BatchMailer\Mailables\Envelope` object that defines the subject and, sometimes, the recipients of the message. The content method returns an `Junges\BatchMailer\Mailables\Content` object that defines the [Blade template](https://laravel.com/docs/9.x/blade) that will be used to generate the message content.
 
 ## Configuring the sender
 
 To configure who the email is going to be "from", you must use the `from` address, on your `Envelope` class:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailable;
-use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
+use Junges\BatchMailer\Mailable;
+use Junges\BatchMailer\Mailables\Envelope;
 
 class ExampleBatchMail extends Mailable
 {
@@ -116,9 +116,9 @@ return new Envelope(
 If you would like to enable click tracking for your batch mail, you may use the `shouldTrackLinks` method on the `Mailable` class:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailable;
-use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
-use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
+use Junges\BatchMailer\Mailable;
+use Junges\BatchMailer\Mailables\Envelope;
+use Junges\BatchMailer\Enums\ClickTracking;
 
 class ExampleBatchMail extends Mailable
 {
@@ -150,9 +150,9 @@ Some email providers can keep track of every time a recipient opens your message
 If you would like to track openings for your batch emails, you may use the `shouldTrackOpenings` method on the `Mailable` class:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailable;
-use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
-use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
+use Junges\BatchMailer\Mailable;
+use Junges\BatchMailer\Mailables\Envelope;
+use Junges\BatchMailer\Enums\ClickTracking;
 
 class ExampleBatchMail extends Mailable
 {
@@ -176,8 +176,8 @@ The default value for this method is `false`, which means no emails will be trac
 Within a mailable class' content, you may define the `view`, or which template should be used when rendering the email's content. Since each email typically uses a [Blade template](https://laravel.com/docs/9.x/blade) to render it's content, you have the full power and convenience of the Blade templating engine when building your emails HTML:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailables\Content;
-use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
+use Junges\BatchMailer\Mailables\Content;
+use Junges\BatchMailer\Mailables\Envelope;
 
 public function content(): Content
 {
@@ -197,7 +197,7 @@ public function envelope(): Envelope
 If you would like to define a plain-text version of your email, you may specify the plain-text template when creating the message's content definition. Like the `view` parameter, the `text` parameter should be a template name which will be used to render the contents of the email. You are free to define both an HTML and plain-text version of your message.
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+use Junges\BatchMailer\Mailables\Content;
 
 public function content(): Content
 {
@@ -210,7 +210,7 @@ public function content(): Content
 For clarity, the `html` method may be used as an alias of the `view` method:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+use Junges\BatchMailer\Mailables\Content;
 
 public function content(): Content
 {
@@ -226,8 +226,8 @@ public function content(): Content
 Typically, you will want to pass some data to your view that you can utilize when rendering the email's HTML. There two ways you may make data available to your view. First, any public property defined on your mailable clas will automatically be made available to the view. So, for example, you may pass data into your mailable class' constructor and set that data to public properties defined on the class.
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
-use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+use Junges\BatchMailer\Mailables\Envelope;
+use Junges\BatchMailer\Mailables\Content;
 
 class OrderShipped extends Mailable
 {
@@ -262,7 +262,7 @@ Once the data has been set to a public property, it will automatically be availa
 If you would like to customize the format of your email's data before it is sent to the template, you may manually pass your data to the view using the `Content` definition `with` parameter. Typically, you will still pass data via the mailable class' constructor; however, you should set this data to `protected` or `private` properties so the data is not automatically made available to the template:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailables\Content;
+use Junges\BatchMailer\Mailables\Content;
 
 class OrderShipped extends Mailable
 {
@@ -296,12 +296,12 @@ Once the data has been passed to the `with` method, it will automatically be ava
 To add attachments to an email, you will add attachments to the array returned by the message's `attachments` method. First, you may add an attachment by providing a file path to the `fromPath` method provided by the `Attachment` class:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailable\Attachment;
+use Junges\BatchMailer\Mailable\Attachment;
  
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment[]
+ * @return \Junges\BatchMailer\Mailables\Attachment[]
  */
 public function attachments()
 {
@@ -317,7 +317,7 @@ When attaching files to a message, you may also specify the display name and/or 
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment[]
+ * @return \Junges\BatchMailer\Mailables\Attachment[]
  */
 public function attachments()
 {
@@ -336,7 +336,7 @@ If you have stored a file in one of your [filesystem disks](https://laravel.com/
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment[]
+ * @return \Junges\BatchMailer\Mailables\Attachment[]
  */
 public function attachments()
 {
@@ -352,7 +352,7 @@ Of course, you may also specify the attachment's name and MIME type:
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment[]
+ * @return \Junges\BatchMailer\Mailables\Attachment[]
  */
 public function attachments()
 {
@@ -370,7 +370,7 @@ The `fromStorageDisk` method may be used if you need to specify a storage disk o
 /**
  * Get the attachments for the message.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment[]
+ * @return \Junges\BatchMailer\Mailables\Attachment[]
  */
 public function attachments()
 {
@@ -385,7 +385,7 @@ public function attachments()
 ## Attachable objects
 While attaching files to messages via simple string paths is often sufficient, in many cases the attachable entities within your application are represented by classes. For example, if your application is attaching a photo to a message, your application may also have a `Photo` model that represents that photo. When that is the case, wouldn't it be convenient to simply pass the `Photo` model to the `attach` method? Attachable objects allow you to do just that.
 
-To get started, implement the `\Illuminate\Contracts\Mail\Attachable` interface on the object that will be attachable to messages. This interface dictates that your class defines a toMailAttachment method that returns an `\InteractionDesignFoundation\BatchMailer\Mailables\Attachment` instance:
+To get started, implement the `\Illuminate\Contracts\Mail\Attachable` interface on the object that will be attachable to messages. This interface dictates that your class defines a toMailAttachment method that returns an `\Junges\BatchMailer\Mailables\Attachment` instance:
 
 ```php
 <?php
@@ -394,14 +394,14 @@ namespace App\Models;
  
 use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Database\Eloquent\Model;
-use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
+use Junges\BatchMailer\Mailables\Attachment;
  
 class Photo extends Model implements Attachable
 {
     /**
      * Get the attachable representation of the model.
      *
-     * @return \InteractionDesignFoundation\BatchMailer\Mailables\Attachment
+     * @return \Junges\BatchMailer\Mailables\Attachment
      */
     public function toMailAttachment()
     {
@@ -426,15 +426,15 @@ public function attachments()
 ## Headers
 Sometimes you may need to attach additional headers to the outgoing message. For instance, you may need to set a custom `Message-Id` or other arbitrary text headers.
 
-To accomplish this, define a headers method on your mailable. The headers method should return an `InteractionDesignFoundation\BatchMailer\Mailables\Headers` instance. This class accepts `messageId`, `references`, and `text` parameters. Of course, you may provide only the parameters you need for your particular message:
+To accomplish this, define a headers method on your mailable. The headers method should return an `Junges\BatchMailer\Mailables\Headers` instance. This class accepts `messageId`, `references`, and `text` parameters. Of course, you may provide only the parameters you need for your particular message:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailables\Headers;
+use Junges\BatchMailer\Mailables\Headers;
  
 /**
  * Get the message headers.
  *
- * @return \InteractionDesignFoundation\BatchMailer\Mailables\Headers
+ * @return \Junges\BatchMailer\Mailables\Headers
  */
 public function headers()
 {
@@ -452,8 +452,8 @@ public function headers()
 Some third-party email providers such as Mailgun and Postmark support message "tags" and "metadata", which may be used to group and track emails sent by your application. You may add tags and metadata to an email message using the `tag` and `metadata` methods:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Mailable;
-use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
+use Junges\BatchMailer\Mailable;
+use Junges\BatchMailer\Mailables\Envelope;
 
 class OrderShipped extends Mailable
 {
@@ -475,7 +475,7 @@ class OrderShipped extends Mailable
 If your application is using the Mailgun driver, you may consult Mailgun's documentation for more information on [tags](https://documentation.mailgun.com/en/latest/user_manual.html#tagging-1) and [metadata](https://documentation.mailgun.com/en/latest/user_manual.html#attaching-data-to-messages). Likewise, the Postmark documentation may also be consulted for more information on their support for [tags](https://postmarkapp.com/blog/tags-support-for-smtp) and [metadata](https://postmarkapp.com/support/article/1125-custom-metadata-faq).
 
 ## Sending Mail
-To send a message, use the `to` method on the `BatchMail` facade. The `to` method accepts an array of `\InteractionDesignFoundation\BatchMailer\ValueObjects\Address` address objects. Once you have specified your recipients, you may pass an instance of your mailable clas to the `send` method:
+To send a message, use the `to` method on the `BatchMail` facade. The `to` method accepts an array of `\Junges\BatchMailer\ValueObjects\Address` address objects. Once you have specified your recipients, you may pass an instance of your mailable clas to the `send` method:
 
 ```php
 <?php
@@ -486,8 +486,8 @@ use App\Http\Controllers\Controller;
 use App\Mail\OrderShipped;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use InteractionDesignFoundation\BatchMailer\Facades\BatchMail;
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\Facades\BatchMail;
+use Junges\BatchMailer\Mailables\Address;
  
 class OrderShipmentController extends Controller
 {
@@ -529,7 +529,7 @@ BatchMail::to([
 By default, this package will send email using the mailer configured as the `default` mailer in your application's `mail` configuration file. However, you may use the mailer method to send a message using a specific `mailer` configuration:
 
 ```php
-use InteractionDesignFoundation\BatchMailer\Facades\BatchMail;
+use Junges\BatchMailer\Facades\BatchMail;
 
 BatchMail::mailer('postmark')
     ->to($addresses)

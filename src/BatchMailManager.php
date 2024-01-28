@@ -1,18 +1,18 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer;
+namespace Junges\BatchMailer;
 
 use Illuminate\Contracts\Foundation\Application;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer as BatchMailerContract;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
-use InteractionDesignFoundation\BatchMailer\Contracts\Factory;
-use InteractionDesignFoundation\BatchMailer\Transports\ArrayTransport;
-use InteractionDesignFoundation\BatchMailer\Transports\FailoverTransport;
-use InteractionDesignFoundation\BatchMailer\Transports\MailgunBatchTransport;
-use InteractionDesignFoundation\BatchMailer\Transports\PostmarkBatchTransport;
+use Junges\BatchMailer\Contracts\BatchMailer as BatchMailerContract;
+use Junges\BatchMailer\Contracts\BatchTransport;
+use Junges\BatchMailer\Contracts\Factory;
+use Junges\BatchMailer\Transports\ArrayTransport;
+use Junges\BatchMailer\Transports\FailoverTransport;
+use Junges\BatchMailer\Transports\MailgunBatchTransport;
+use Junges\BatchMailer\Transports\PostmarkBatchTransport;
 use Mailgun\Mailgun;
 
-/** @mixin \InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer|\InteractionDesignFoundation\BatchMailer\BatchMailer */
+/** @mixin \Junges\BatchMailer\Contracts\BatchMailer|\Junges\BatchMailer\BatchMailer */
 final class BatchMailManager implements Factory
 {
     /** @var array<string, BatchMailerContract>  */

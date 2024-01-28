@@ -1,10 +1,10 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Tests\Transports;
+namespace Junges\BatchMailer\Tests\Transports;
 
 use Illuminate\Support\Facades\App;
-use InteractionDesignFoundation\BatchMailer\Tests\TestCase;
-use InteractionDesignFoundation\BatchMailer\Transports\MailgunBatchTransport;
+use Junges\BatchMailer\Tests\TestCase;
+use Junges\BatchMailer\Transports\MailgunBatchTransport;
 
 final class MailgunTransportTest extends TestCase
 {

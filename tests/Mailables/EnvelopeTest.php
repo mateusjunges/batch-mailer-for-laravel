@@ -1,10 +1,10 @@
 <?php
 
-namespace InteractionDesignFoundation\BatchMailer\Tests\Mailables;
+namespace Junges\BatchMailer\Tests\Mailables;
 
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
-use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
-use InteractionDesignFoundation\BatchMailer\Tests\TestCase;
+use Junges\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\Mailables\Envelope;
+use Junges\BatchMailer\Tests\TestCase;
 
 class EnvelopeTest extends TestCase
 {

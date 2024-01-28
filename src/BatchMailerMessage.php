@@ -1,27 +1,27 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer;
+namespace Junges\BatchMailer;
 
 use Carbon\CarbonInterface;
 use Illuminate\Contracts\Mail\Attachable;
 use Illuminate\Support\Facades\Storage;
-use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
-use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
+use Junges\BatchMailer\Enums\ClickTracking;
+use Junges\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\Mailables\Attachment;
 use Symfony\Component\Mime\Part\DataPart;
 
 final class BatchMailerMessage
 {
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $to*/
+    /** @var array<int, \Junges\BatchMailer\Mailables\Address> $to*/
     private array $to = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $to*/
+    /** @var array<int, \Junges\BatchMailer\Mailables\Address> $to*/
     private array $replyTo = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $cc*/
+    /** @var array<int, \Junges\BatchMailer\Mailables\Address> $cc*/
     private array $cc = [];
 
-    /** @var array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $bcc*/
+    /** @var array<int, \Junges\BatchMailer\Mailables\Address> $bcc*/
     private array $bcc = [];
 
     /** @var array<int, \Illuminate\Mail\Attachment> $attachments */
@@ -51,7 +51,7 @@ final class BatchMailerMessage
     private string $subject;
     private Address $from;
 
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> $to */
+    /** @param array<int, \Junges\BatchMailer\Mailables\Address> $to */
     public function setTo(array $to): self
     {
         $this->to = $to;
@@ -266,13 +266,13 @@ final class BatchMailerMessage
         return $this->replyTo;
     }
 
-    /** @return array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> */
+    /** @return array<int, \Junges\BatchMailer\Mailables\Address> */
     public function cc(): array
     {
         return $this->cc;
     }
 
-    /** @return array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address> */
+    /** @return array<int, \Junges\BatchMailer\Mailables\Address> */
     public function bcc(): array
     {
         return $this->bcc;

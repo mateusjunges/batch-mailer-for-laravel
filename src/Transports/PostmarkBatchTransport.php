@@ -1,19 +1,19 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Transports;
+namespace Junges\BatchMailer\Transports;
 
-use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
-use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
-use InteractionDesignFoundation\BatchMailer\SentMessage;
-use InteractionDesignFoundation\Postmark\Api\Message\Requests\Address;
-use InteractionDesignFoundation\Postmark\Api\Message\Requests\Attachment as PostmarkAttachment;
-use InteractionDesignFoundation\Postmark\Api\Message\Requests\Batch;
-use InteractionDesignFoundation\Postmark\Api\Message\Requests\Message;
-use InteractionDesignFoundation\Postmark\Enums\TrackLinksEnum;
-use InteractionDesignFoundation\Postmark\Facades\Postmark;
+use Junges\BatchMailer\BatchMailerMessage;
+use Junges\BatchMailer\Contracts\BatchTransport;
+use Junges\BatchMailer\Enums\ClickTracking;
+use Junges\BatchMailer\Exceptions\TransportException;
+use Junges\BatchMailer\Mailables\Attachment;
+use Junges\BatchMailer\SentMessage;
+use Junges\Postmark\Api\Message\Requests\Address;
+use Junges\Postmark\Api\Message\Requests\Attachment as PostmarkAttachment;
+use Junges\Postmark\Api\Message\Requests\Batch;
+use Junges\Postmark\Api\Message\Requests\Message;
+use Junges\Postmark\Enums\TrackLinksEnum;
+use Junges\Postmark\Facades\Postmark;
 
 final class PostmarkBatchTransport implements BatchTransport
 {

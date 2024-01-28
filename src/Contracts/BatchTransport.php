@@ -1,9 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Contracts;
+namespace Junges\BatchMailer\Contracts;
 
-use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\SentMessage;
+use Junges\BatchMailer\BatchMailerMessage;
+use Junges\BatchMailer\SentMessage;
 
 interface BatchTransport
 {

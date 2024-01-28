@@ -1,9 +1,9 @@
 <?php
 
-namespace InteractionDesignFoundation\BatchMailer\Concerns;
+namespace Junges\BatchMailer\Concerns;
 
 use Illuminate\Support\Arr;
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\Mailables\Address;
 
 trait NormalizeAddresses
 {

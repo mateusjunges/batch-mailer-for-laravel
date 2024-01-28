@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer;
+namespace Junges\BatchMailer;
 
 use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Support\Htmlable;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\HtmlString;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailable as MailableContract;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchMailer as BatchMailerContract;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
-use InteractionDesignFoundation\BatchMailer\Events\BatchMessageSent;
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\Contracts\BatchMailable as MailableContract;
+use Junges\BatchMailer\Contracts\BatchMailer as BatchMailerContract;
+use Junges\BatchMailer\Contracts\BatchTransport;
+use Junges\BatchMailer\Events\BatchMessageSent;
+use Junges\BatchMailer\Mailables\Address;
 
 final class BatchMailer implements BatchMailerContract
 {
@@ -41,7 +41,7 @@ final class BatchMailer implements BatchMailerContract
         return (new PendingBatchMail($this))->bcc($users);
     }
 
-    /** @param array<int, \InteractionDesignFoundation\BatchMailer\Mailables\Address|string> $users */
+    /** @param array<int, \Junges\BatchMailer\Mailables\Address|string> $users */
     public function cc(array $users): PendingBatchMail
     {
         return (new PendingBatchMail($this))->cc($users);

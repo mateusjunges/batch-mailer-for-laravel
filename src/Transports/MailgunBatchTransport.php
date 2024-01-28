@@ -1,13 +1,13 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Transports;
+namespace Junges\BatchMailer\Transports;
 
-use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\Contracts\BatchTransport;
-use InteractionDesignFoundation\BatchMailer\Enums\ClickTracking;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
-use InteractionDesignFoundation\BatchMailer\SentMessage;
+use Junges\BatchMailer\BatchMailerMessage;
+use Junges\BatchMailer\Contracts\BatchTransport;
+use Junges\BatchMailer\Enums\ClickTracking;
+use Junges\BatchMailer\Exceptions\TransportException;
+use Junges\BatchMailer\Mailables\Attachment;
+use Junges\BatchMailer\SentMessage;
 use Mailgun\Mailgun;
 use Mailgun\Message\Exceptions\LimitExceeded;
 

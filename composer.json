@@ -1,10 +1,10 @@
 {
-    "name": "interaction-design-foundation/laravel-batch-mailer",
+    "name": "mateusjunges/laravel-batch-mailer",
     "type": "library",
     "require": {
-        "php": "^8.1|^8.2",
+        "php": "^8.2",
         "mailgun/mailgun-php": "^3.5",
-        "interaction-design-foundation/laravel-postmark-api": "^v0.1.0",
+        "mateusjunges/laravel-postmark-api": "^v0.1.0",
         "ext-fileinfo": "*"
     },
     "require-dev": {
@@ -14,12 +14,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "InteractionDesignFoundation\\BatchMailer\\": "src/"
+            "Junges\\BatchMailer\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "InteractionDesignFoundation\\BatchMailer\\Tests\\": "tests/"
+            "Junges\\BatchMailer\\Tests\\": "tests/"
         }
     },
     "authors": [
@@ -37,7 +37,7 @@
     "extra": {
         "laravel": {
             "providers": [
-                "InteractionDesignFoundation\\BatchMailer\\Providers\\BatchMailerServiceProvider"
+                "Junges\\BatchMailer\\Providers\\BatchMailerServiceProvider"
             ]
         }
     },

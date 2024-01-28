@@ -1,8 +1,8 @@
 <?php
 
-namespace InteractionDesignFoundation\BatchMailer\Events;
+namespace Junges\BatchMailer\Events;
 
-use InteractionDesignFoundation\BatchMailer\SentMessage;
+use Junges\BatchMailer\SentMessage;
 
 final class BatchMessageSent
 {

@@ -1,6 +1,6 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Contracts;
+namespace Junges\BatchMailer\Contracts;
 
 interface Factory
 {

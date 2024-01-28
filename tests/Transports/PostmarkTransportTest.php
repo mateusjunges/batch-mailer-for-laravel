@@ -1,17 +1,17 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Tests\Transports;
+namespace Junges\BatchMailer\Tests\Transports;
 
 use Illuminate\Support\Facades\App;
-use InteractionDesignFoundation\BatchMailer\BatchMailerMessage;
-use InteractionDesignFoundation\BatchMailer\Exceptions\TransportException;
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
-use InteractionDesignFoundation\BatchMailer\Mailables\Attachment;
-use InteractionDesignFoundation\BatchMailer\Tests\TestCase;
-use InteractionDesignFoundation\BatchMailer\Transports\PostmarkBatchTransport;
-use InteractionDesignFoundation\Postmark\Api\Message\Requests\Batch;
-use InteractionDesignFoundation\Postmark\Api\Message\Requests\Message;
-use InteractionDesignFoundation\Postmark\Facades\Postmark;
+use Junges\BatchMailer\BatchMailerMessage;
+use Junges\BatchMailer\Exceptions\TransportException;
+use Junges\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\Mailables\Attachment;
+use Junges\BatchMailer\Tests\TestCase;
+use Junges\BatchMailer\Transports\PostmarkBatchTransport;
+use Junges\Postmark\Api\Message\Requests\Batch;
+use Junges\Postmark\Api\Message\Requests\Message;
+use Junges\Postmark\Facades\Postmark;
 
 final class PostmarkTransportTest extends TestCase
 {
@@ -40,7 +40,8 @@ final class PostmarkTransportTest extends TestCase
         $transport->send($message);
     }
 
-    public function test_send(): void
+    /** @test */
+    public function it_can_send_messages(): void
     {
         Postmark::fake();
 
@@ -114,7 +115,8 @@ final class PostmarkTransportTest extends TestCase
         });
     }
 
-    public function test_basic_attachment(): void
+    /** @test */
+    public function it_can_have_basic_attachments(): void
     {
         Postmark::fake();
 

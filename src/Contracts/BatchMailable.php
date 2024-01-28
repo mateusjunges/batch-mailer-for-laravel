@@ -1,11 +1,11 @@
 <?php declare(strict_types=1);
 
-namespace InteractionDesignFoundation\BatchMailer\Contracts;
+namespace Junges\BatchMailer\Contracts;
 
-use InteractionDesignFoundation\BatchMailer\Mailables\Address;
-use InteractionDesignFoundation\BatchMailer\Mailables\Content;
-use InteractionDesignFoundation\BatchMailer\Mailables\Envelope;
-use InteractionDesignFoundation\BatchMailer\SentMessage;
+use Junges\BatchMailer\Mailables\Address;
+use Junges\BatchMailer\Mailables\Content;
+use Junges\BatchMailer\Mailables\Envelope;
+use Junges\BatchMailer\SentMessage;
 
 interface BatchMailable
 {
